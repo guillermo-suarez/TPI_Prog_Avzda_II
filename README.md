@@ -1,3 +1,3 @@
-# TPI_Prog_Avzda_II
+# TPI Programación Avanzada II
 - Malazotto, Soledad
 - Suarez, Guillermo
