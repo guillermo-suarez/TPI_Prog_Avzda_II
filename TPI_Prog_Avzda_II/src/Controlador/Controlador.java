@@ -53,7 +53,7 @@ public class Controlador
         EstadoProyecto nuevoEstadoProyecto = new EstadoProyecto(nuevoNumeroEstadoProyecto, descripcion);
         this.estadosProyecto.add(nuevoEstadoProyecto);
     }
-    public void CrearCultivo(String nombre)
+    public void CrearCultivo(String nombre)//vistadone
     {
         Integer nuevoNumeroCultivo = 1;
         if(cultivos.size() > 0)
@@ -63,7 +63,7 @@ public class Controlador
         Cultivo nuevoCultivo = new Cultivo(nuevoNumeroCultivo, nombre);
         this.cultivos.add(nuevoCultivo);
     }
-    public void CrearLaboreo(String descripcion)
+    public void CrearLaboreo(String descripcion)//haciendovista
     {
         Integer nuevoNumeroLaboreo = 1;
         if(laboreos.size() > 0) {
