@@ -3,6 +3,9 @@ import Controlador.*;
 
 public class CrearCultivo extends javax.swing.JFrame {
 Controlador control;
+
+/* asd
+*/
    
     public CrearCultivo() {
         initComponents();
