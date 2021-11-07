@@ -12,6 +12,10 @@ public class Controlador {
         this.DAO = DAO;
         this.estadosCampo = DAO.recuperarTodos(Estadocampo.class);
     }
+    
+    public void agregarObjeto(Object objeto) {
+        this.DAO.agregarObjeto(objeto);
+    }
 
     public List<Estadocampo> getEstadosCampo() {
         this.estadosCampo = DAO.recuperarTodos(Estadocampo.class);
