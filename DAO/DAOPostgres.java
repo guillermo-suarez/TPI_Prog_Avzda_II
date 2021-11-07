@@ -32,4 +32,11 @@ public class DAOPostgres implements InterfazDAO {
         return resultado;
     }
 
+    @Override
+    public void agregarObjeto(Object objeto) {
+        this.sesion.beginTransaction();
+        this.sesion.save(objeto);
+        this.sesion.getTransaction().commit();
+    }
+
 }
