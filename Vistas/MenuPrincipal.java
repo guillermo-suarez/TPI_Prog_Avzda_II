@@ -114,12 +114,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuEstadoProyectoActionPerformed
 
     private void btnMenuEstadoCampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEstadoCampoActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
         MenuEstadoCampo mec = new MenuEstadoCampo(controlador);
-        /*while(mec.isVisible()) {
-            this.setVisible(false);
-        }
-        this.setVisible(true);*/
     }//GEN-LAST:event_btnMenuEstadoCampoActionPerformed
 
     private void btnMenuCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuCultivoActionPerformed

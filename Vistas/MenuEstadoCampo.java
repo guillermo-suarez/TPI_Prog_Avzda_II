@@ -1,30 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
 import Controlador.*;
 import Modelo.*;
-import DAO.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-/**
- *
- * @author Guillermo
- */
 public class MenuEstadoCampo extends javax.swing.JFrame {
 
     private List<Estadocampo> listEstadoCampo;
     private Controlador controlador;
     private ListSelectionModel tblListModel;
-    /**
-     * Creates new form MenuEstadoCampo
-     */
+    
     public MenuEstadoCampo(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
@@ -35,7 +23,7 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
                 tblListModelValueChanged(evt);
             }
         });
-        inciarTabla();
+        iniciarTabla();
         setVisible(true);
     }
 
@@ -58,9 +46,12 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
         btnActualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEstadosCampo = new javax.swing.JTable();
+        lblAviso = new javax.swing.JLabel();
+        btnAtras = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú de EstadoCampo");
+        setResizable(false);
 
         pnlPanel1.setPreferredSize(new java.awt.Dimension(324, 300));
 
@@ -71,10 +62,25 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
         jLabel1.setText("Nombre:");
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         tblEstadosCampo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -106,6 +112,17 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
             tblEstadosCampo.getColumnModel().getColumn(0).setMaxWidth(75);
         }
 
+        lblAviso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAviso.setToolTipText("");
+        lblAviso.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        btnAtras.setText("Atrás");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlPanel1Layout = new javax.swing.GroupLayout(pnlPanel1);
         pnlPanel1.setLayout(pnlPanel1Layout);
         pnlPanel1Layout.setHorizontalGroup(
@@ -128,7 +145,11 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
                         .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlPanel1Layout.createSequentialGroup()
+                        .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         pnlPanel1Layout.setVerticalGroup(
@@ -148,7 +169,11 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
                     .addComponent(btnBorrar)
                     .addComponent(btnActualizar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -156,7 +181,7 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +190,46 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void inciarTabla() {
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if(this.txtNombre.getText().equals("")) {
+            this.lblAviso.setText("Ingrese un nombre válido.");
+        } else {
+            Estadocampo ec = this.controlador.getEstadosCampo().get(this.tblEstadosCampo.getSelectedRow());
+            ec.setNombre(this.txtNombre.getText());
+            this.controlador.actualizarObjeto(ec);
+            this.deseleccionarFila();
+            this.iniciarTabla();
+            this.lblAviso.setText("Estado de campo actualizado.");
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if(this.txtNombre.getText().equals("")) {
+            this.lblAviso.setText("Ingrese un nombre válido.");
+        } else {
+            this.controlador.agregarObjeto(new Estadocampo(this.txtNombre.getText()));
+            this.txtNombre.setText("");
+            this.iniciarTabla();
+            this.lblAviso.setText("Estado de campo agregado.");
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        this.dispose();
+        MenuPrincipal menu = new MenuPrincipal(controlador);
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        Estadocampo ec = this.controlador.getEstadosCampo().get(this.tblEstadosCampo.getSelectedRow());
+        this.controlador.borrarObjeto(ec);
+        this.deseleccionarFila();
+        this.iniciarTabla();
+        this.lblAviso.setText("Estado de campo borrado.");
+        
+    }//GEN-LAST:event_btnBorrarActionPerformed
+    
+    private void iniciarTabla() {
         listEstadoCampo = this.controlador.getEstadosCampo();
         DefaultTableModel tblModel = (DefaultTableModel) tblEstadosCampo.getModel();
         tblModel.setRowCount(0);
@@ -178,22 +242,33 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
         this.btnAgregar.setEnabled(true);
         this.btnBorrar.setEnabled(false);
         this.btnActualizar.setEnabled(false);
+        deseleccionarFila();
     }
     
     private void tblListModelValueChanged(ListSelectionEvent evt){
-        this.btnAgregar.setEnabled(false);
-        this.btnBorrar.setEnabled(true);
-        this.btnActualizar.setEnabled(true);
-        this.txtNumero.setText((String) this.tblEstadosCampo.getValueAt(this.tblEstadosCampo.getSelectedRow(), 0));
-        this.txtNombre.setText((String) this.tblEstadosCampo.getValueAt(this.tblEstadosCampo.getSelectedRow(), 1));
+        if(this.tblListModel.getSelectedItemsCount() > 0) {
+            this.btnAgregar.setEnabled(false);
+            this.btnBorrar.setEnabled(true);
+            this.btnActualizar.setEnabled(true);
+            this.txtNumero.setText((String) this.tblEstadosCampo.getValueAt(this.tblEstadosCampo.getSelectedRow(), 0));
+            this.txtNombre.setText((String) this.tblEstadosCampo.getValueAt(this.tblEstadosCampo.getSelectedRow(), 1));
+        }
+    }
+    
+    private void deseleccionarFila() {
+        this.tblListModel.clearSelection();
+        this.txtNumero.setText("");
+        this.txtNombre.setText("");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAviso;
     private javax.swing.JLabel lblNumero;
     private javax.swing.JPanel pnlPanel1;
     private javax.swing.JTable tblEstadosCampo;
