@@ -15,17 +15,14 @@ public class Controlador {
     
     public void agregarObjeto(Object objeto) {
         this.DAO.agregarObjeto(objeto);
-        this.estadosCampo = DAO.recuperarTodos(Estadocampo.class);
     }
     
     public void borrarObjeto(Object objeto) {
         this.DAO.borrarObjeto(objeto);
-        this.estadosCampo = DAO.recuperarTodos(Estadocampo.class);
     }
     
     public void actualizarObjeto(Object objeto) {
         this.DAO.actualizarObjeto(objeto);
-        this.estadosCampo = DAO.recuperarTodos(Estadocampo.class);
     }
 
     public List<Estadocampo> getEstadosCampo() {
