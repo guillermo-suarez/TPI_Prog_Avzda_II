@@ -20,8 +20,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     public MenuPrincipal(Controlador controlador) {
         this.controlador = controlador;
-        this.initComponents();
-        this.setVisible(true);
+        initComponents();
+        setVisible(true);
     }
 
     /**
@@ -37,6 +37,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnMenuEstadoCampo = new javax.swing.JButton();
         btnMenuEstadoProyecto = new javax.swing.JButton();
         btnMenuCultivo = new javax.swing.JButton();
+        btnMenuLaboreo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú principal");
@@ -66,6 +67,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnMenuLaboreo.setText("Menú de Laboreo");
+        btnMenuLaboreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuLaboreoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlMenuPrincipalLayout = new javax.swing.GroupLayout(pnlMenuPrincipal);
         pnlMenuPrincipal.setLayout(pnlMenuPrincipalLayout);
         pnlMenuPrincipalLayout.setHorizontalGroup(
@@ -75,7 +83,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addGroup(pnlMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnMenuEstadoCampo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnMenuEstadoProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                    .addComponent(btnMenuCultivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnMenuCultivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnMenuLaboreo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(55, 55, 55))
         );
         pnlMenuPrincipalLayout.setVerticalGroup(
@@ -86,8 +95,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMenuEstadoProyecto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMenuCultivo)
-                .addContainerGap(210, Short.MAX_VALUE))
+                .addComponent(btnMenuCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnMenuLaboreo)
+                .addContainerGap(182, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -114,18 +125,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenuEstadoProyectoActionPerformed
 
     private void btnMenuEstadoCampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEstadoCampoActionPerformed
-        this.dispose();
+        this.setVisible(false);
         MenuEstadoCampo mec = new MenuEstadoCampo(controlador);
     }//GEN-LAST:event_btnMenuEstadoCampoActionPerformed
 
     private void btnMenuCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuCultivoActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        MenuCultivo mc = new MenuCultivo(controlador);
     }//GEN-LAST:event_btnMenuCultivoActionPerformed
+
+    private void btnMenuLaboreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuLaboreoActionPerformed
+        this.setVisible(false);
+        MenuLaboreo ml = new MenuLaboreo(controlador);
+    }//GEN-LAST:event_btnMenuLaboreoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMenuCultivo;
     private javax.swing.JButton btnMenuEstadoCampo;
     private javax.swing.JButton btnMenuEstadoProyecto;
+    private javax.swing.JButton btnMenuLaboreo;
     private javax.swing.JPanel pnlMenuPrincipal;
     // End of variables declaration//GEN-END:variables
 }

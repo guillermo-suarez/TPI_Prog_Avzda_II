@@ -52,6 +52,7 @@
                       <Component id="btnMenuEstadoCampo" max="32767" attributes="0"/>
                       <Component id="btnMenuEstadoProyecto" pref="180" max="32767" attributes="0"/>
                       <Component id="btnMenuCultivo" max="32767" attributes="0"/>
+                      <Component id="btnMenuLaboreo" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               </Group>
@@ -65,8 +66,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnMenuEstadoProyecto" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnMenuCultivo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="210" max="32767" attributes="0"/>
+                  <Component id="btnMenuCultivo" min="-2" pref="22" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="btnMenuLaboreo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="182" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -97,6 +100,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuCultivoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnMenuLaboreo">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Men&#xfa; de Laboreo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuLaboreoActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -1,24 +1,24 @@
 package Vistas;
 
-import Controlador.*;
+import Controlador.Controlador;
 import Modelo.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-public class MenuEstadoCampo extends javax.swing.JFrame {
+public class MenuLaboreo extends javax.swing.JFrame {
 
-    private List<Estadocampo> listEstadoCampo;
+    private List<Laboreo> listLaboreo;
     private Controlador controlador;
     private ListSelectionModel tblListModel;
     
-    public MenuEstadoCampo(Controlador controlador) {
+    public MenuLaboreo(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
-        this.listEstadoCampo = new ArrayList<>();
-        tblListModel = tblEstadosCampo.getSelectionModel();
-        tblListModel.addListSelectionListener(new ListSelectionListener() {
+        this.listLaboreo = new ArrayList<>();
+        tblListModel = tblLaboreos.getSelectionModel();
+        tblListModel.addListSelectionListener(new ListSelectionListener () {
             @Override
             public void valueChanged(ListSelectionEvent evt) {
                 tblListModelValueChanged(evt);
@@ -40,39 +40,30 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
         pnlPanel1 = new javax.swing.JPanel();
         lblNumero = new javax.swing.JLabel();
         txtNumero = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
-        btnBorrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblEstadosCampo = new javax.swing.JTable();
-        lblAviso = new javax.swing.JLabel();
+        btnBorrar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
+        lblAviso = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblLaboreos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Menú de EstadoCampo");
+        setTitle("Menú de Laboreo");
         setResizable(false);
-
-        pnlPanel1.setPreferredSize(new java.awt.Dimension(324, 300));
 
         lblNumero.setText("Número:");
 
         txtNumero.setEditable(false);
 
-        jLabel1.setText("Nombre:");
+        lblNombre.setText("Nombre:");
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
-            }
-        });
-
-        btnBorrar.setText("Borrar");
-        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBorrarActionPerformed(evt);
             }
         });
 
@@ -83,7 +74,23 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
             }
         });
 
-        tblEstadosCampo.setModel(new javax.swing.table.DefaultTableModel(
+        btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
+
+        btnAtras.setText("Atrás");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
+
+        lblAviso.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        tblLaboreos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -92,7 +99,7 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -106,23 +113,12 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblEstadosCampo.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblEstadosCampo.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(tblEstadosCampo);
-        if (tblEstadosCampo.getColumnModel().getColumnCount() > 0) {
-            tblEstadosCampo.getColumnModel().getColumn(0).setMaxWidth(75);
+        tblLaboreos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblLaboreos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tblLaboreos);
+        if (tblLaboreos.getColumnModel().getColumnCount() > 0) {
+            tblLaboreos.getColumnModel().getColumn(0).setMaxWidth(75);
         }
-
-        lblAviso.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAviso.setToolTipText("");
-        lblAviso.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        btnAtras.setText("Atrás");
-        btnAtras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtrasActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout pnlPanel1Layout = new javax.swing.GroupLayout(pnlPanel1);
         pnlPanel1.setLayout(pnlPanel1Layout);
@@ -133,21 +129,23 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
                 .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(pnlPanel1Layout.createSequentialGroup()
-                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNumero)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombre)
-                            .addComponent(txtNumero)))
-                    .addGroup(pnlPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnlPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlPanel1Layout.createSequentialGroup()
+                                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNombre)
+                                    .addComponent(txtNumero))))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pnlPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPanel1Layout.createSequentialGroup()
                         .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -162,19 +160,19 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
                     .addComponent(lblNumero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNombre))
+                    .addComponent(txtNombre)
+                    .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
-                    .addComponent(btnBorrar)
-                    .addComponent(btnActualizar))
+                    .addComponent(btnActualizar)
+                    .addComponent(btnBorrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAtras, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblAviso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -182,74 +180,71 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        if(this.txtNombre.getText().equals("")) {
-            this.lblAviso.setText("Ingrese un nombre válido.");
-        } else {
-            Estadocampo ec = this.controlador.getEstadosCampo().get(this.tblEstadosCampo.getSelectedRow());
-            ec.setNombre(this.txtNombre.getText());
-            this.controlador.actualizarObjeto(ec);
-            this.deseleccionarFila();
-            this.iniciarTabla();
-            this.lblAviso.setText("Estado de campo actualizado.");
-        }
-    }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if(this.txtNombre.getText().equals("")) {
-            this.lblAviso.setText("Ingrese un nombre válido.");
-        } else {
-            this.controlador.agregarObjeto(new Estadocampo(this.txtNombre.getText()));
-            this.txtNombre.setText("");
-            this.iniciarTabla();
-            this.lblAviso.setText("Estado de campo agregado.");
-        }
-    }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         this.dispose();
         MenuPrincipal menu = new MenuPrincipal(controlador);
     }//GEN-LAST:event_btnAtrasActionPerformed
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if(this.txtNombre.getText().equals("")) {
+            this.lblAviso.setText("Ingrese un nombre válido.");
+        } else {
+            this.controlador.agregarObjeto(new Laboreo(this.txtNombre.getText()));
+            this.txtNombre.setText("");
+            iniciarTabla();
+            this.lblAviso.setText("Laboreo agregado.");
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if(this.txtNombre.getText().equals("")) {
+            this.lblAviso.setText("Ingrese un nombre válido.");
+        } else {
+            Laboreo l = this.controlador.getLaboreos().get(this.tblLaboreos.getSelectedRow());
+            l.setNombre(this.txtNombre.getText());
+            this.controlador.actualizarObjeto(l);
+            this.iniciarTabla();
+            this.lblAviso.setText("Laboreo actualizado.");
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        Estadocampo ec = this.controlador.getEstadosCampo().get(this.tblEstadosCampo.getSelectedRow());
-        this.controlador.borrarObjeto(ec);
-        this.deseleccionarFila();
-        this.iniciarTabla();
-        this.lblAviso.setText("Estado de campo borrado.");
-        
+        Laboreo l = this.controlador.getLaboreos().get(this.tblLaboreos.getSelectedRow());
+        this.controlador.borrarObjeto(l);
+        iniciarTabla();
+        this.lblAviso.setText("Laboreo borrado.");
     }//GEN-LAST:event_btnBorrarActionPerformed
-    
+
     private void iniciarTabla() {
-        listEstadoCampo = this.controlador.getEstadosCampo();
-        DefaultTableModel tblModel = (DefaultTableModel) tblEstadosCampo.getModel();
+        listLaboreo = this.controlador.getLaboreos();
+        DefaultTableModel tblModel = (DefaultTableModel) tblLaboreos.getModel();
         tblModel.setRowCount(0);
-        for(Estadocampo ec: this.listEstadoCampo) {
-            String nroEstadoCampo = String.valueOf(ec.getIdestadocampo());
-            String nombreEstadoCampo = ec.getNombre();
-            String[] tblData = {nroEstadoCampo, nombreEstadoCampo};
+        for(Laboreo l: listLaboreo) {
+            String nroLaboreo = String.valueOf(l.getIdlaboreo());
+            String nombreLaboreo = l.getNombre();
+            String[] tblData = {nroLaboreo, nombreLaboreo};
             tblModel.addRow(tblData);
         }
         deseleccionarFila();
     }
     
-    private void tblListModelValueChanged(ListSelectionEvent evt){
+    private void tblListModelValueChanged(ListSelectionEvent evt) {
         if(this.tblListModel.getSelectedItemsCount() > 0) {
             this.btnAgregar.setEnabled(false);
-            this.btnBorrar.setEnabled(true);
             this.btnActualizar.setEnabled(true);
-            this.txtNumero.setText((String) this.tblEstadosCampo.getValueAt(this.tblEstadosCampo.getSelectedRow(), 0));
-            this.txtNombre.setText((String) this.tblEstadosCampo.getValueAt(this.tblEstadosCampo.getSelectedRow(), 1));
+            this.btnBorrar.setEnabled(true);
+            this.txtNumero.setText((String) this.tblLaboreos.getValueAt(this.tblLaboreos.getSelectedRow(), 0));
+            this.txtNombre.setText((String) this.tblLaboreos.getValueAt(this.tblLaboreos.getSelectedRow(), 1));
         }
     }
     
@@ -258,8 +253,8 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
         this.txtNumero.setText("");
         this.txtNombre.setText("");
         this.btnAgregar.setEnabled(true);
-        this.btnBorrar.setEnabled(false);
         this.btnActualizar.setEnabled(false);
+        this.btnBorrar.setEnabled(false);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -267,12 +262,12 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBorrar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAviso;
+    private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNumero;
     private javax.swing.JPanel pnlPanel1;
-    private javax.swing.JTable tblEstadosCampo;
+    private javax.swing.JTable tblLaboreos;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumero;
     // End of variables declaration//GEN-END:variables
