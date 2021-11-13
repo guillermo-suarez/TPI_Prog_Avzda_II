@@ -38,6 +38,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnMenuEstadoProyecto = new javax.swing.JButton();
         btnMenuCultivo = new javax.swing.JButton();
         btnMenuLaboreo = new javax.swing.JButton();
+        btnMenuCampo = new javax.swing.JButton();
+        btnMenuTiposuelo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú principal");
@@ -74,54 +76,70 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnMenuCampo.setText("Menú de Campo");
+        btnMenuCampo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuCampoActionPerformed(evt);
+            }
+        });
+
+        btnMenuTiposuelo.setText("Menú de Tipos de Suelos");
+        btnMenuTiposuelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuTiposueloActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlMenuPrincipalLayout = new javax.swing.GroupLayout(pnlMenuPrincipal);
         pnlMenuPrincipal.setLayout(pnlMenuPrincipalLayout);
         pnlMenuPrincipalLayout.setHorizontalGroup(
             pnlMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMenuPrincipalLayout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
+                .addContainerGap(65, Short.MAX_VALUE)
                 .addGroup(pnlMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnMenuEstadoCampo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnMenuEstadoProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(btnMenuLaboreo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnMenuCampo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnMenuCultivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMenuLaboreo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnMenuTiposuelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(55, 55, 55))
         );
         pnlMenuPrincipalLayout.setVerticalGroup(
             pnlMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(btnMenuCampo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMenuEstadoCampo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMenuEstadoProyecto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnMenuLaboreo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMenuCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMenuLaboreo)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addComponent(btnMenuTiposuelo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlMenuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(pnlMenuPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlMenuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(pnlMenuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuEstadoProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEstadoProyectoActionPerformed
-        // TODO add your handling code here:
-        //MenuEstadosProyecto mep = new MenuEstadosProyecto(this.sesion);
+        this.dispose();
+        MenuEstadoProyecto mep = new MenuEstadoProyecto(controlador);
     }//GEN-LAST:event_btnMenuEstadoProyectoActionPerformed
 
     private void btnMenuEstadoCampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuEstadoCampoActionPerformed
@@ -139,11 +157,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MenuLaboreo ml = new MenuLaboreo(controlador);
     }//GEN-LAST:event_btnMenuLaboreoActionPerformed
 
+    private void btnMenuCampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuCampoActionPerformed
+        this.dispose();
+        MenuCampo mc = new MenuCampo(controlador);
+    }//GEN-LAST:event_btnMenuCampoActionPerformed
+
+    private void btnMenuTiposueloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuTiposueloActionPerformed
+        this.dispose();
+        MenuTipoSuelo mts = new MenuTipoSuelo(controlador);
+    }//GEN-LAST:event_btnMenuTiposueloActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMenuCampo;
     private javax.swing.JButton btnMenuCultivo;
     private javax.swing.JButton btnMenuEstadoCampo;
     private javax.swing.JButton btnMenuEstadoProyecto;
     private javax.swing.JButton btnMenuLaboreo;
+    private javax.swing.JButton btnMenuTiposuelo;
     private javax.swing.JPanel pnlMenuPrincipal;
     // End of variables declaration//GEN-END:variables
 }
