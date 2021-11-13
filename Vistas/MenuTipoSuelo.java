@@ -51,8 +51,7 @@ public class MenuTipoSuelo extends javax.swing.JFrame {
         btnCultivo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Menú de EstadoCampo");
-        setResizable(false);
+        setTitle("Menu de Tipos de Suelo");
 
         pnlPanel1.setPreferredSize(new java.awt.Dimension(324, 300));
 
@@ -268,6 +267,7 @@ public class MenuTipoSuelo extends javax.swing.JFrame {
             this.btnAgregar.setEnabled(false);
             this.btnBorrar.setEnabled(true);
             this.btnActualizar.setEnabled(true);
+            this.btnCultivo.setEnabled(true);
             this.txtNumero.setText((String) this.tblTiposSuelo.getValueAt(this.tblTiposSuelo.getSelectedRow(), 0));
             this.txtNombre.setText((String) this.tblTiposSuelo.getValueAt(this.tblTiposSuelo.getSelectedRow(), 1));
         }
@@ -277,6 +277,10 @@ public class MenuTipoSuelo extends javax.swing.JFrame {
         this.tblListModel.clearSelection();
         this.txtNumero.setText("");
         this.txtNombre.setText("");
+        this.btnAgregar.setEnabled(true);
+        this.btnActualizar.setEnabled(false);
+        this.btnBorrar.setEnabled(false);
+        this.btnCultivo.setEnabled(false);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
