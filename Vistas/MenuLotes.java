@@ -334,7 +334,7 @@ public class MenuLotes extends javax.swing.JFrame {
         }
         else
         {
-            //menu modificar proyecto
+           //
         }
     }//GEN-LAST:event_btnProyectoActionPerformed
 
@@ -354,7 +354,7 @@ public class MenuLotes extends javax.swing.JFrame {
             String metros = String.valueOf(l.getSuperficie());
             for(Proyecto p: l.getProyectos())
             {
-               if (!p.getEstadoproyecto().getNombre().equals("Terminado")||!p.getEstadoproyecto().getNombre().equals("Cancelado"))
+               if (!p.getEstadoproyecto().getNombre().equals("Terminado")&&!p.getEstadoproyecto().getNombre().equals("Cancelado"))
                {
                    bandera = p.getEstadoproyecto().getNombre();
                    break;
