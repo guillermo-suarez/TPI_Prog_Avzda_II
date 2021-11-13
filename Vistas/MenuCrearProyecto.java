@@ -7,17 +7,22 @@ package Vistas;
 
 import Controlador.Controlador;
 import Modelo.*;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashSet;
 
 /**
  *
  * @author Garma
  */
 public class MenuCrearProyecto extends javax.swing.JFrame {
-Lote lote;
+    Lote lote;
+    private final Controlador controlador;
     
     public MenuCrearProyecto(Controlador controlador, Lote lote) {        
         initComponents();
         this.lote=lote;
+        this.controlador = controlador;
         iniciarTabla();
     }
 
@@ -53,6 +58,8 @@ Lote lote;
         jLabel6.setText("jLabel6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu de Proyecto");
+        setResizable(false);
 
         jLabel1.setText("Creando un proyecto");
 
@@ -163,16 +170,48 @@ Lote lote;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+        Proyecto p = new Proyecto();
+        Proyectoxlaboreo pxl = new Proyectoxlaboreo();        
+        pxl.setFechainicio(new Date());
+        for(Cultivo c:controlador.getCultivos())
+        {
+            if(c.getNombre().equals((String)boxCultivo.getSelectedItem()))
+            {
+                p.setCultivo(c);                
+                break;
+            }    
+           
+        }
+        p.setLote(lote);
+        for(Estadoproyecto ep: controlador.getEstadosProyecto())
+        {
+            if(ep.getNombre().equals("En preparación")||ep.getNombre().equals("En preparacion"))
+            {
+                p.setEstadoproyecto(ep);
+            }
+        }
+        for(Cultivoxlaboreo cxl: p.getCultivo().getCultivoxlaboreos())
+        {
+          pxl.setLaboreo(cxl.getLaboreo());
+          break;
+        }
+        
+        controlador.agregarObjeto(p);
+        pxl.setProyecto(p);
+        controlador.agregarObjeto(pxl);
+        lote.getProyectos().add(p);
+        controlador.actualizarObjeto(lote);
+        
+        //menu modificar proyecto       
+        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        MenuLotes ml = new MenuLotes(controlador,lote.getCampo());
+        dispose();
+        ml.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

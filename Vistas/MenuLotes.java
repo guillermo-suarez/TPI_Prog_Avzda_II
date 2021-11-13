@@ -18,7 +18,7 @@ import javax.swing.table.*;
  * @author Guillermo
  */
 public class MenuLotes extends javax.swing.JFrame {
-
+    private Lote loteSeleccionado;
     private List<Lote> listLotes;
     private Controlador controlador;
     private ListSelectionModel tblListModel;
@@ -27,7 +27,7 @@ public class MenuLotes extends javax.swing.JFrame {
     
     public MenuLotes(Controlador controlador, Campo campo) {
         this.controlador = controlador;
-        this.listLotes = new ArrayList<>();
+        this.listLotes = new ArrayList<>(campo.getLotes());
         this.campo=campo;                
         initComponents();
         tblListModel = tblLotes.getSelectionModel();
@@ -68,7 +68,8 @@ public class MenuLotes extends javax.swing.JFrame {
         btnProyecto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Menú de EstadoCampo");
+        setTitle("Menú de Lotes");
+        setResizable(false);
 
         pnlPanel1.setPreferredSize(new java.awt.Dimension(324, 300));
 
@@ -255,19 +256,17 @@ public class MenuLotes extends javax.swing.JFrame {
                 this.lblvariable.setText("Ingrese valores válidos.");
             }
             else
-            {
-                Lote l = null;
-                l.setIdlote(Integer.parseInt((String) tblLotes.getValueAt(tblLotes.getSelectedRow(), 1)));
-                l.setSuperficie(Float.parseFloat(txtMetros.getSelectedText()));
+            {   
+                loteSeleccionado.setSuperficie(Float.parseFloat(txtMetros.getText()));
                 for(Tiposuelo ts : this.controlador.getTiposSuelo())
                 {
-                    if(ts.getNombre() == this.tblLotes.getValueAt(tblLotes.getSelectedRow(), 2))
+                    if(ts.getNombre().equals(((String)boxTipo.getSelectedItem())))
                     {                    
-                        l.setTiposuelo(ts);
+                        loteSeleccionado.setTiposuelo(ts);
                         break;
                     }
                  }
-                this.controlador.actualizarObjeto(l);
+                this.controlador.actualizarObjeto(loteSeleccionado);
                 this.deseleccionarFila();
                 this.iniciarTabla();
                 this.lblvariable.setText("Estado de proyecto actualizado.");                
@@ -277,18 +276,13 @@ public class MenuLotes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        Lote l = null;
-        for(Lote x: this.campo.getLotes())
-        {
-            if (x.getIdlote()==Integer.parseInt((String) tblLotes.getValueAt(tblLotes.getSelectedRow(), 1)))
-            {
-                l=x;
-            }
-        }
-        this.controlador.borrarObjeto(l);
+            
+        this.controlador.borrarObjeto(loteSeleccionado);
+        this.campo.getLotes().remove(loteSeleccionado);     
+        this.controlador.actualizarObjeto(campo);
         this.deseleccionarFila();
         this.iniciarTabla();
-        this.lblvariable.setText("Estado de proyecto borrado.");
+        this.lblvariable.setText("Lote borrado.");
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -314,7 +308,9 @@ public class MenuLotes extends javax.swing.JFrame {
                     }
                 }
                 Lote l = new Lote(campo, aux, Float.parseFloat(txtMetros.getText()));
-                controlador.agregarObjeto(l);        
+                controlador.agregarObjeto(l);     
+                campo.getLotes().add(l);
+                controlador.actualizarObjeto(campo); 
                 iniciarTabla();
                 lblvariable.setText("Elemento agregado");
             }
@@ -345,8 +341,9 @@ public class MenuLotes extends javax.swing.JFrame {
     private void txtMetrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMetrosActionPerformed
         
     }//GEN-LAST:event_txtMetrosActionPerformed
-    public void iniciarTabla() {    
-        listLotes.addAll(this.campo.getLotes());
+    public void iniciarTabla() {   
+        campo = controlador.getCampos().get(campo.getIdcampo()-1);
+        listLotes=new ArrayList<>(campo.getLotes());
         DefaultTableModel tblModel = (DefaultTableModel) tblLotes.getModel();
         tblModel.setRowCount(0);
         for(Lote l: this.listLotes) {
@@ -357,14 +354,16 @@ public class MenuLotes extends javax.swing.JFrame {
             String metros = String.valueOf(l.getSuperficie());
             for(Proyecto p: l.getProyectos())
             {
-               if (p.getEstadoproyecto().getNombre().equals("Activo"))
+               if (!p.getEstadoproyecto().getNombre().equals("Terminado")||!p.getEstadoproyecto().getNombre().equals("Cancelado"))
                {
                    bandera = p.getEstadoproyecto().getNombre();
+                   break;
                }
             }
             String[] tblData = {nroCampo, nroLote,tipoSuelo, metros, bandera};
             tblModel.addRow(tblData);
         }
+        boxTipo.removeAllItems();
         for(Tiposuelo ts: controlador.getTiposSuelo())
         {
             boxTipo.addItem(ts.getNombre());
@@ -385,7 +384,7 @@ public class MenuLotes extends javax.swing.JFrame {
         this.btnProyecto.setEnabled(true);
         this.txtNumeroLote.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));
         this.txtMetros.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 3));
-            
+        loteSeleccionado=listLotes.get(tblLotes.getSelectedRow());
     }
     }
         private void deseleccionarFila() {
