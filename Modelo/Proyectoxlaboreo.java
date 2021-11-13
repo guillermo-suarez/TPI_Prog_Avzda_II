@@ -39,6 +39,7 @@ public class Proyectoxlaboreo  implements java.io.Serializable {
         this.laboreo = laboreo;
         this.proyecto = proyecto;
     }
+    
     public Proyectoxlaboreo(Laboreo laboreo, Proyecto proyecto, Date fechainicio, Date fechafin) {
        this.laboreo = laboreo;
        this.proyecto = proyecto;

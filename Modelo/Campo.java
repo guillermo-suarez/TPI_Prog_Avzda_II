@@ -72,10 +72,28 @@ public class Campo  implements java.io.Serializable {
     public void setLotes(Set<Lote> lotes) {
         this.lotes = lotes;
     }
-
-
-
-
+    
+    public String verEstadoActualizado() {
+        int sizeLote=0, sizeProyectos=0;
+        for(Lote l: this.lotes) {
+            for(Proyecto p: l.getProyectos()) {
+                if(!(p.getEstadoproyecto().getNombre().equals("Cancelado"))&&!(p.getEstadoproyecto().getNombre().equals("Terminado")))
+                sizeProyectos++;
+            }
+            sizeLote++;
+        }
+        String cadena = null;
+        if(sizeLote==sizeProyectos) {
+            cadena = "Completamente trabajado";
+        } else {
+            if(sizeProyectos>0) {
+                cadena = "Parcialmente trabajado";
+            } else {
+                cadena = "En desuso";
+            }
+        }
+        return cadena;
+    }
 }
 
 
