@@ -1,28 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
 import Controlador.Controlador;
 import Modelo.*;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashSet;
 
-/**
- *
- * @author Garma
- */
 public class MenuCrearProyecto extends javax.swing.JFrame {
-    Lote lote;
-    private final Controlador controlador;
+    
+    private Lote lote;
+    private Controlador controlador;
+    private Proyecto p;
     
     public MenuCrearProyecto(Controlador controlador, Lote lote) {        
         initComponents();
-        this.lote=lote;
+        this.lote = lote;
         this.controlador = controlador;
+        p = null;
         iniciarTabla();
     }
 
@@ -58,7 +50,7 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
         jLabel6.setText("jLabel6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Menu de Proyecto");
+        setTitle("Crear un proyecto");
         setResizable(false);
 
         jLabel1.setText("Creando un proyecto");
@@ -170,49 +162,59 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        Proyecto p = new Proyecto();
-        Proyectoxlaboreo pxl = new Proyectoxlaboreo();        
+        /*Proyecto p = new Proyecto();
+        Proyectoxlaboreo pxl = new Proyectoxlaboreo();
+        p.setLote(lote);
         pxl.setFechainicio(new Date());
-        for(Cultivo c:controlador.getCultivos())
-        {
-            if(c.getNombre().equals((String)boxCultivo.getSelectedItem()))
-            {
-                p.setCultivo(c);                
+        pxl.setFechafin(null);*/
+        Cultivo cultivoS = null;
+        Estadoproyecto estadoproyectoS = null;
+        Laboreo primerLaboreo = new Laboreo();
+        for(Cultivo c: controlador.getCultivos()) {
+            if(c.getNombre().equals((String)boxCultivo.getSelectedItem())) {
+                cultivoS = c;
+                //p.setCultivo(c);                
                 break;
             }    
            
         }
-        p.setLote(lote);
-        for(Estadoproyecto ep: controlador.getEstadosProyecto())
-        {
-            if(ep.getNombre().equals("En preparación")||ep.getNombre().equals("En preparacion"))
-            {
-                p.setEstadoproyecto(ep);
+        for(Estadoproyecto ep: controlador.getEstadosProyecto()) {
+            if(ep.getNombre().equals("En preparación")) {
+                estadoproyectoS = ep;
+                //p.setEstadoproyecto(ep);
+                break;
             }
         }
-        for(Cultivoxlaboreo cxl: p.getCultivo().getCultivoxlaboreos())
-        {
-          pxl.setLaboreo(cxl.getLaboreo());
-          break;
+        for(Cultivoxlaboreo cxl: cultivoS.getCultivoxlaboreos()) {
+            // Buscamos el Cultivoxlaboreo que tenga orden == 1 de ese Cultivo
+            if(cxl.getOrden() == 1) {
+                for(Laboreo l: controlador.getLaboreos()) {
+                    if(l.getIdlaboreo() == cxl.getLaboreo().getIdlaboreo()) {
+                        primerLaboreo = l;
+                        break;
+                    }
+                }
+                //primerLaboreo = cxl.getLaboreo();
+                //pxl.setLaboreo(cxl.getLaboreo());
+                break;
+            }
         }
-        
+        this.p = new Proyecto(cultivoS, estadoproyectoS, lote);
+        //pxl.setProyecto(p);
         controlador.agregarObjeto(p);
-        pxl.setProyecto(p);
+        Proyectoxlaboreo pxl = new Proyectoxlaboreo(primerLaboreo, p, new Date(), null);
         controlador.agregarObjeto(pxl);
+        //Proyecto aux = p;
         lote.getProyectos().add(p);
         controlador.actualizarObjeto(lote);
-        
-        //menu modificar proyecto       
-        
+        MenuLaboreoProyecto mlp = new MenuLaboreoProyecto(this.controlador, p);
+        this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        MenuLotes ml = new MenuLotes(controlador,lote.getCampo());
-        dispose();
-        ml.setVisible(true);
+        this.dispose();
+        MenuLotes ml = new MenuLotes(controlador, lote.getCampo());
     }//GEN-LAST:event_btnCancelarActionPerformed
-
- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxCultivo;
