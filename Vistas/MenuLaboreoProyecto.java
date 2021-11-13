@@ -5,6 +5,7 @@ import Modelo.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -43,9 +44,11 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
         txtCultivo = new javax.swing.JTextField();
         btnNextLaboreo = new javax.swing.JButton();
         btnCancelarP = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu de Proyecto");
+        setPreferredSize(null);
         setResizable(false);
 
         pnlPanel1.setPreferredSize(new java.awt.Dimension(324, 300));
@@ -90,11 +93,6 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
         lblEstadoProyecto.setText("Estado proyecto:");
 
         boxEstadoP.setModel(new javax.swing.DefaultComboBoxModel<>());
-        boxEstadoP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxEstadoPActionPerformed(evt);
-            }
-        });
 
         txtProyecto.setEditable(false);
 
@@ -113,6 +111,13 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
         btnCancelarP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarPActionPerformed(evt);
+            }
+        });
+
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
             }
         });
 
@@ -143,10 +148,10 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
                         .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pnlPanel1Layout.createSequentialGroup()
                                 .addComponent(lblEstadoProyecto)
-                                .addGap(109, 109, 109))
-                            .addGroup(pnlPanel1Layout.createSequentialGroup()
-                                .addComponent(boxEstadoP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(21, 21, 21))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnActualizar))
+                            .addComponent(boxEstadoP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(pnlPanel1Layout.createSequentialGroup()
                         .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(pnlPanel1Layout.createSequentialGroup()
@@ -159,14 +164,16 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnCancelarP, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(21, 21, 21))))
+                        .addContainerGap())))
         );
         pnlPanel1Layout.setVerticalGroup(
             pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblEstadoProyecto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblEstadoProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizar))
                     .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblCampo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtCampo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,18 +199,20 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
                     .addGroup(pnlPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(422, 422, 422))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnlPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
         );
 
         pack();
@@ -215,24 +224,100 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnCancelarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPActionPerformed
-        // TODO add your handling code here:
+        for (Estadoproyecto x: this.controlador.getEstadosProyecto()) {
+            if("Cancelado".equals(x.getNombre())) {
+               this.proyecto.setEstadoproyecto(x);
+               break;
+            }
+        }
+        controlador.actualizarObjeto(proyecto);
+        String c = proyecto.getLote().getCampo().verEstadoActualizado();
+        for(Estadocampo ec:controlador.getEstadosCampo())
+        {
+            if(ec.getNombre().equals(c))
+                proyecto.getLote().getCampo().setEstadocampo(ec);
+        }
+        controlador.actualizarObjeto(proyecto.getLote().getCampo());
+        iniciarTabla();
+        lblvariable.setText("Proyecto cancelado");
     }//GEN-LAST:event_btnCancelarPActionPerformed
 
-    private void boxEstadoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxEstadoPActionPerformed
-        if(boxEstadoP.getSelectedItem().equals(""))
-        {
-            
-        } else {
-            
-        }
-    }//GEN-LAST:event_boxEstadoPActionPerformed
-
     private void btnNextLaboreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextLaboreoActionPerformed
-        
+        // Recuperamos el numero de orden del laboreo que se esta terminando
+        int ultimoOrden = 0;
+        for(int i = 0; i < tblLaboreos.getRowCount(); i++) {
+            if((Integer.valueOf((String) tblLaboreos.getValueAt(i, 0))) > ultimoOrden) {
+                ultimoOrden = (Integer.valueOf((String) tblLaboreos.getValueAt(i, 0)));
+            }
+        }
+        // Recuperamos el ultimo laboreo: aquel que se esta terminando ahora
+        Laboreo ultimoLaboreo = null;
+        for(Cultivoxlaboreo cxl: this.proyecto.getCultivo().getCultivoxlaboreos()) {
+            if(cxl.getOrden() == ultimoOrden) {
+                ultimoLaboreo = cxl.getLaboreo();
+                break;
+            }
+        }
+        // Ahora recuperamos el proyectoxlaboreo correspondiente
+        Proyectoxlaboreo ultimoPxL = null;
+        for(Proyectoxlaboreo pxl: this.proyecto.getProyectoxlaboreos()) {
+            if(pxl.getLaboreo().getIdlaboreo() == ultimoLaboreo.getIdlaboreo()) {
+                ultimoPxL = pxl;
+                break;
+            }
+        }
+        // Le ponemos la fechaFin y lo guardamos
+        ultimoPxL.setFechafin(new Date());
+        controlador.actualizarObjeto(ultimoPxL);
+        // Si el último laboreo que se hizo fue el ultimo, se debe terminar el proyecto
+        if(ultimoOrden == proyecto.getCultivo().getCultivoxlaboreos().size()) {
+            for(Estadoproyecto ep: controlador.getEstadosProyecto()) {
+                if(ep.getNombre().equals("Terminado")) {
+                    proyecto.setEstadoproyecto(ep);
+                    controlador.actualizarObjeto(proyecto);
+                    break;
+                }
+            }
+            String nuevoEstadoDelCampo = this.proyecto.getLote().getCampo().verEstadoActualizado();
+            for(Estadocampo ec: controlador.getEstadosCampo()) {
+                if(ec.getNombre().equals(nuevoEstadoDelCampo)) {
+                    this.proyecto.getLote().getCampo().setEstadocampo(ec);
+                    controlador.actualizarObjeto(this.proyecto.getLote().getCampo());
+                    break;
+                }
+            }
+        // Si no, empezar el siguiente laboreo
+        } else {
+            Laboreo proximoLaboreo = null;
+            for(Cultivoxlaboreo cxl: this.proyecto.getCultivo().getCultivoxlaboreos()) {
+                if(cxl.getOrden() == (ultimoOrden + 1)) {
+                    proximoLaboreo = cxl.getLaboreo();
+                    break;
+                }
+            }
+            Proyectoxlaboreo nuevoPxL = new Proyectoxlaboreo(proximoLaboreo, proyecto, new Date(), null);
+            proyecto.getProyectoxlaboreos().add(nuevoPxL);
+            controlador.actualizarObjeto(proyecto);
+            controlador.agregarObjeto(nuevoPxL);
+        }
+        iniciarTabla();
     }//GEN-LAST:event_btnNextLaboreoActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        for(Estadoproyecto ep: this.controlador.getEstadosProyecto()) {
+            if(ep.getNombre().equals((String) boxEstadoP.getSelectedItem())) {
+                this.proyecto.setEstadoproyecto(ep);
+                break;
+            }
+        }
+        controlador.actualizarObjeto(proyecto);
+        iniciarTabla();
+        lblvariable.setText("Proyecto actualizado");
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxEstadoP;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCancelarP;
     private javax.swing.JButton btnNextLaboreo;
@@ -252,8 +337,26 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void iniciarTabla() {
+        int idCAux = proyecto.getLote().getCampo().getIdcampo();
+        int idLAux = proyecto.getLote().getIdlote();
+        int idPAux = proyecto.getIdproyecto();
+        for(Campo c: controlador.getCampos()) {
+            if(c.getIdcampo() == idCAux) {
+                for(Lote l: c.getLotes()) {
+                    if(l.getIdlote() == idLAux) {
+                        for(Proyecto p: l.getProyectos()) {
+                            if(p.getIdproyecto() == idPAux) {
+                                this.proyecto = p;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
         listLxP = new ArrayList<>(this.proyecto.getProyectoxlaboreos());
-        //listLxP = (List<Proyectoxlaboreo>) this.proyecto.getProyectoxlaboreos();
         DefaultTableModel tblModel = (DefaultTableModel) tblLaboreos.getModel();
         tblModel.setRowCount(0);
         String orden = null;
@@ -261,7 +364,7 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
             for(Cultivoxlaboreo cxl: aux.getProyecto().getCultivo().getCultivoxlaboreos()) {
                 if(cxl.getLaboreo().equals(aux.getLaboreo())) {
                     orden = String.valueOf(cxl.getOrden());
-                    //break;
+                    break;
                 }
             }
             String laboreo = aux.getLaboreo().getNombre();
@@ -279,11 +382,30 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
         this.txtNumeroLote.setText(String.valueOf(proyecto.getLote().getIdlote()));
         this.txtProyecto.setText(String.valueOf(proyecto.getIdproyecto()));
         this.txtCultivo.setText(proyecto.getCultivo().getNombre());
-        
+        //Cargar el combobox de estadoproyecto
         boxEstadoP.removeAllItems();
-        for(Estadoproyecto ep : controlador.getEstadosProyecto()) {
-            if(!(ep.getNombre().equals("Terminado")) && !(ep.getNombre().equals("Cancelado"))) {
-                boxEstadoP.addItem(ep.getNombre());
+        //Si el proyecto esta terminado...
+        if(proyecto.getEstadoproyecto().getNombre().equals("Terminado")) {
+            boxEstadoP.addItem("Terminado");
+            boxEstadoP.setEnabled(false);
+        //Si el proyecto esta cancelado...
+        } else if(proyecto.getEstadoproyecto().getNombre().equals("Cancelado")) {
+            boxEstadoP.addItem("Cancelado");
+            boxEstadoP.setEnabled(false);
+        //Si el proyecto no esta ni terminado ni cancelado...
+        } else {
+            //Se cargan todos los estadosproyecto que no sean terminado ni cancelado
+            for(Estadoproyecto ep : controlador.getEstadosProyecto()) {
+                if(!(ep.getNombre().equals("Terminado")) && !(ep.getNombre().equals("Cancelado"))) {
+                    boxEstadoP.addItem(ep.getNombre());
+                }
+            }
+            //Preseleccionar el estado actual del proyecto en el combobox
+            for(int i = 0; i < boxEstadoP.getItemCount(); i++) {
+                if(((String) boxEstadoP.getItemAt(i)).equals(proyecto.getEstadoproyecto().getNombre())) {
+                    boxEstadoP.setSelectedIndex(i);
+                    break;
+                }
             }
         }
     }

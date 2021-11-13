@@ -54,7 +54,8 @@ public class MenuCampo extends javax.swing.JFrame {
         btnBaja = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Menú de Cultivo");
+        setTitle("Menú de Campo");
+        setResizable(false);
 
         tblCampos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

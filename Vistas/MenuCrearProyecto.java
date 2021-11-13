@@ -162,18 +162,12 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        /*Proyecto p = new Proyecto();
-        Proyectoxlaboreo pxl = new Proyectoxlaboreo();
-        p.setLote(lote);
-        pxl.setFechainicio(new Date());
-        pxl.setFechafin(null);*/
         Cultivo cultivoS = null;
         Estadoproyecto estadoproyectoS = null;
         Laboreo primerLaboreo = new Laboreo();
         for(Cultivo c: controlador.getCultivos()) {
             if(c.getNombre().equals((String)boxCultivo.getSelectedItem())) {
-                cultivoS = c;
-                //p.setCultivo(c);                
+                cultivoS = c;               
                 break;
             }    
            
@@ -181,7 +175,6 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
         for(Estadoproyecto ep: controlador.getEstadosProyecto()) {
             if(ep.getNombre().equals("En preparación")) {
                 estadoproyectoS = ep;
-                //p.setEstadoproyecto(ep);
                 break;
             }
         }
@@ -194,19 +187,23 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
                         break;
                     }
                 }
-                //primerLaboreo = cxl.getLaboreo();
-                //pxl.setLaboreo(cxl.getLaboreo());
                 break;
             }
         }
         this.p = new Proyecto(cultivoS, estadoproyectoS, lote);
-        //pxl.setProyecto(p);
-        controlador.agregarObjeto(p);
         Proyectoxlaboreo pxl = new Proyectoxlaboreo(primerLaboreo, p, new Date(), null);
+        p.getProyectoxlaboreos().add(pxl);
+        controlador.agregarObjeto(p);
         controlador.agregarObjeto(pxl);
-        //Proyecto aux = p;
         lote.getProyectos().add(p);
         controlador.actualizarObjeto(lote);
+        String c = p.getLote().getCampo().verEstadoActualizado();
+        for(Estadocampo ec:controlador.getEstadosCampo())
+        {
+            if(ec.getNombre().equals(c))
+                p.getLote().getCampo().setEstadocampo(ec);
+        }
+        controlador.actualizarObjeto(p.getLote().getCampo());
         MenuLaboreoProyecto mlp = new MenuLaboreoProyecto(this.controlador, p);
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
