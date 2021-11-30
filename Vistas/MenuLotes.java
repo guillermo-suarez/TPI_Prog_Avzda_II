@@ -68,6 +68,8 @@ public class MenuLotes extends javax.swing.JFrame {
         lblNumero2 = new javax.swing.JLabel();
         boxTipo = new javax.swing.JComboBox<>();
         btnProyecto = new javax.swing.JButton();
+        btnSeparar = new javax.swing.JButton();
+        btnUnir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú de Lotes");
@@ -125,8 +127,9 @@ public class MenuLotes extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblLotes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblLotes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblLotes.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tblLotes.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tblLotes.setShowGrid(false);
         tblLotes.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblLotes);
         if (tblLotes.getColumnModel().getColumnCount() > 0) {
@@ -155,15 +158,29 @@ public class MenuLotes extends javax.swing.JFrame {
             }
         });
 
+        btnSeparar.setText("Separar lotes");
+        btnSeparar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSepararActionPerformed(evt);
+            }
+        });
+
+        btnUnir.setText("Unir lotes");
+        btnUnir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlPanel1Layout = new javax.swing.GroupLayout(pnlPanel1);
         pnlPanel1.setLayout(pnlPanel1Layout);
         pnlPanel1Layout.setHorizontalGroup(
             pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPanel1Layout.createSequentialGroup()
+            .addGroup(pnlPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPanel1Layout.createSequentialGroup()
+                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(pnlPanel1Layout.createSequentialGroup()
                         .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNumero)
                             .addComponent(lblNumero1))
@@ -179,18 +196,25 @@ public class MenuLotes extends javax.swing.JFrame {
                         .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtMetros)
                             .addComponent(boxTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPanel1Layout.createSequentialGroup()
+                    .addGroup(pnlPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPanel1Layout.createSequentialGroup()
+                        .addComponent(btnProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                    .addGroup(pnlPanel1Layout.createSequentialGroup()
                         .addComponent(lblvariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAtras)))
+                        .addGap(73, 73, 73))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAtras, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPanel1Layout.createSequentialGroup()
+                                .addComponent(btnSeparar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnUnir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         pnlPanel1Layout.setVerticalGroup(
@@ -216,18 +240,22 @@ public class MenuLotes extends javax.swing.JFrame {
                     .addComponent(btnProyecto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAtras)
-                    .addComponent(lblvariable))
-                .addContainerGap())
+                    .addComponent(lblvariable)
+                    .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSeparar)
+                        .addComponent(btnUnir)))
+                .addGap(11, 11, 11)
+                .addComponent(btnAtras)
+                .addGap(6, 6, 6))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
+            .addComponent(pnlPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,6 +264,29 @@ public class MenuLotes extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectoActionPerformed
+        // Si el lote seleccionado no tiene un proyecto activo...
+        if(loteSeleccionado.tieneProyectoActivo() == null) {
+            // Se va al menú para crear y empezar un proyecto
+            MenuCrearProyecto mcp = new MenuCrearProyecto(controlador, loteSeleccionado);
+            mcp.setVisible(true);
+            dispose();
+            // Si el lote seleccionado tiene un proyecto activo
+        } else {
+            // Se recupera dicho proyecto activo
+            Proyecto proyectoActivo = loteSeleccionado.tieneProyectoActivo();
+            /*for(Proyecto p: loteSeleccionado.getProyectos()) {
+                if(!(p.getEstadoproyecto().getNombre().equals("Terminado")) && !(p.getEstadoproyecto().getNombre().equals("Cancelado"))) {
+                    proyectoActivo = p;
+                    break;
+                }
+            }*/
+            // Y se va al menú para ver y modificar el proyecto activo
+            this.dispose();
+            MenuLaboreoProyecto mlp = new MenuLaboreoProyecto(controlador, proyectoActivo);
+        }
+    }//GEN-LAST:event_btnProyectoActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         this.dispose();
@@ -279,38 +330,46 @@ public class MenuLotes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectoActionPerformed
-        // Si el lote seleccionado no tiene un proyecto activo...
-        if(loteSeleccionado.tieneProyectoActivo() == null) {       
-            // Se va al menú para crear y empezar un proyecto
-            MenuCrearProyecto mcp = new MenuCrearProyecto(controlador, loteSeleccionado);
-            mcp.setVisible(true);
-            dispose();
-        // Si el lote seleccionado tiene un proyecto activo
-        } else {
-            // Se recupera dicho proyecto activo
-            Proyecto proyectoActivo = loteSeleccionado.tieneProyectoActivo();
-            /*for(Proyecto p: loteSeleccionado.getProyectos()) {
-                if(!(p.getEstadoproyecto().getNombre().equals("Terminado")) && !(p.getEstadoproyecto().getNombre().equals("Cancelado"))) {
-                    proyectoActivo = p;
-                    break;
-                }
-            }*/
-            // Y se va al menú para ver y modificar el proyecto activo
-            this.dispose();
-            MenuLaboreoProyecto mlp = new MenuLaboreoProyecto(controlador, proyectoActivo);
-        }
-    }//GEN-LAST:event_btnProyectoActionPerformed
+    private void btnSepararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSepararActionPerformed
+        Lote lote = (Lote) controlador.recuperarUno(Lote.class, Integer.parseInt((String)tblLotes.getValueAt(tblLotes.getSelectedRow(), 1)));
+        new MenuSepararLotes(controlador,lote).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnSepararActionPerformed
+
+    private void btnUnirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnirActionPerformed
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this, "Seguro?", "Unir un lote",
+                0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            int [] index=tblLotes.getSelectedRows();
+              Float metros = 0.0F;
+            for(int i =0;i<tblLotes.getSelectedRowCount();i++)
+            {
+                metros+=Float.parseFloat((String) tblLotes.getValueAt(index[i], 3));
+                Lote l = (Lote) controlador.recuperarUno(Lote.class, Integer.parseInt((String) tblLotes.getValueAt(index[i], 1)));
+                l.setActivo(false);
+                controlador.actualizarObjeto(l);
+            }
+            Campo c = (Campo) controlador.recuperarUno(Campo.class, Integer.parseInt((String) tblLotes.getValueAt(index[0], 0)));
+            Tiposuelo tp = controlador.recuperarTiposuelo((String) tblLotes.getValueAt(index[0], 2));
+            Lote nuevo = new Lote(c, tp, metros);
+            c.getLotes().add(nuevo);        
+            controlador.agregarObjeto(nuevo);
+            controlador.actualizarObjeto(c);
+            iniciarTabla();
+          }        
+    }//GEN-LAST:event_btnUnirActionPerformed
+    
     public void iniciarTabla() {
         this.campo = (Campo) controlador.recuperarUno(Campo.class, campo.getIdcampo());
         this.txtCampo.setText(String.valueOf(this.campo.getIdcampo()));
-        /*for(Lote l: campo.getLotes()) {
-            listLotes.add(l);
-        }*/
         DefaultTableModel tblModel = (DefaultTableModel) tblLotes.getModel();
         tblModel.setRowCount(0);
         for(Lote l: campo.getLotes()) {
-            String nroCampo = String.valueOf(campo.getIdcampo());
+            if(l.isActivo())
+            {String nroCampo = String.valueOf(campo.getIdcampo());
             String nroLote = String.valueOf(l.getIdlote());
             String tipoSuelo = l.getTiposuelo().getNombre();
             String metros = String.valueOf(l.getSuperficie());
@@ -326,7 +385,7 @@ public class MenuLotes extends javax.swing.JFrame {
                }
             }*/
             String[] tblData = {nroCampo, nroLote,tipoSuelo, metros, estado};
-            tblModel.addRow(tblData);
+            tblModel.addRow(tblData);}            
         }
         deseleccionarFila();
         for(Tiposuelo ts: controlador.getTiposSuelo()) {
@@ -336,26 +395,48 @@ public class MenuLotes extends javax.swing.JFrame {
         this.btnBorrar.setEnabled(false);
         this.btnActualizar.setEnabled(false);
         this.btnProyecto.setEnabled(false);
+        this.btnSeparar.setEnabled(false);
+        this.btnUnir.setEnabled(false);
     }
     
     private void tblListModelValueChanged(ListSelectionEvent evt){
-        if(this.tblListModel.getSelectedItemsCount() > 0) {
+        if(this.tblListModel.getSelectedItemsCount() == 1) {
             this.btnAgregar.setEnabled(false);
             this.btnBorrar.setEnabled(true);
             this.btnActualizar.setEnabled(true);
             this.btnProyecto.setEnabled(true);
+            this.btnSeparar.setEnabled(true);
+            
             int idLoteSeleccionado = Integer.parseInt((String) tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));
             this.loteSeleccionado = (Lote) controlador.recuperarUno(Lote.class, idLoteSeleccionado);
-            /*for(Lote l: listLotes) {
-                if(l.getIdlote() == Integer.parseInt((String)tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1))) {
-                    this.loteSeleccionado = l;
-                    break;
-                }
-            }*/
             this.txtNumeroLote.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 0));
             this.txtMetros.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 3));     
         }
+        if(this.tblListModel.getSelectedItemsCount() > 1) {
+            this.btnAgregar.setEnabled(false);
+            this.btnBorrar.setEnabled(false);
+            this.btnActualizar.setEnabled(false);
+            this.btnProyecto.setEnabled(false);
+            this.btnSeparar.setEnabled(false);
+            this.btnUnir.setEnabled(true);
+            int[] index = tblLotes.getSelectedRows();        
+            int bandera=0;
+            Tiposuelo tp = controlador.recuperarTiposuelo((String) tblLotes.getValueAt(index[0], 2));
+            for(int i=0;i<tblLotes.getSelectedRowCount();i++)
+            {
+                Tiposuelo tpaux = controlador.recuperarTiposuelo((String) tblLotes.getValueAt(index[i], 2));
+                if(!tp.equals(tpaux)||!tblLotes.getValueAt(index[i], 4).equals("No hay proyecto"))
+                {
+                    btnUnir.setEnabled(false);
+                    break;
+                }            
+            }           
+        }
     }
+    
+    
+    
+    
     private void deseleccionarFila() {
         this.tblListModel.clearSelection();
         this.txtNumeroLote.setText("");
@@ -372,6 +453,8 @@ public class MenuLotes extends javax.swing.JFrame {
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnProyecto;
+    private javax.swing.JButton btnSeparar;
+    private javax.swing.JButton btnUnir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNumero;
