@@ -5,22 +5,10 @@ import Modelo.*;
 import java.util.*;
 
 public class Controlador {
-    private DAOPostgres DAO;
-    private List<Campo> campos = new ArrayList<>();
-    private List<Tiposuelo> tiposSuelo = new ArrayList<>();
-    private List<Estadocampo> estadosCampo = new ArrayList<>();
-    private List<Estadoproyecto> estadosProyecto = new ArrayList<>();
-    private List<Laboreo> laboreos = new ArrayList<>();
-    private List<Cultivo> cultivos = new ArrayList<>();
+    private final DAOPostgres DAO;
     
     public Controlador(DAOPostgres DAO) {
         this.DAO = DAO;
-        this.campos = DAO.recuperarTodos(Campo.class);
-        this.tiposSuelo = DAO.recuperarTodos(Tiposuelo.class);
-        this.estadosCampo = DAO.recuperarTodos(Estadocampo.class);
-        this.estadosProyecto = DAO.recuperarTodos(Estadoproyecto.class);
-        this.laboreos = DAO.recuperarTodos(Laboreo.class);
-        this.cultivos = DAO.recuperarTodos(Cultivo.class);
     }
     
     public void agregarObjeto(Object objeto) {
@@ -36,32 +24,53 @@ public class Controlador {
     }
     
     public List<Campo> getCampos() {
-        this.campos = DAO.recuperarTodos(Campo.class);
-        return campos;
+        return DAO.recuperarTodos(Campo.class);
     }
     
     public List<Tiposuelo> getTiposSuelo() {
-        this.tiposSuelo = DAO.recuperarTodos(Tiposuelo.class);
-        return tiposSuelo;
+        return DAO.recuperarTodos(Tiposuelo.class);
     }
 
     public List<Estadocampo> getEstadosCampo() {
-        this.estadosCampo = DAO.recuperarTodos(Estadocampo.class);
-        return estadosCampo;
+        return DAO.recuperarTodos(Estadocampo.class);
     }
     
     public List<Estadoproyecto> getEstadosProyecto() {
-        this.estadosProyecto = DAO.recuperarTodos(Estadoproyecto.class);
-        return estadosProyecto;
+        return DAO.recuperarTodos(Estadoproyecto.class);
     }
     
     public List<Laboreo> getLaboreos() {
-        this.laboreos = DAO.recuperarTodos(Laboreo.class);
-        return laboreos;
+        return DAO.recuperarTodos(Laboreo.class);
     }
     
     public List<Cultivo> getCultivos() {
-        this.cultivos = DAO.recuperarTodos(Cultivo.class);
-        return cultivos;
+        return DAO.recuperarTodos(Cultivo.class);
+    }
+    
+    public Object recuperarUno(Class clase, int id) {
+        return DAO.recuperarUno(clase, id);
+    }
+    
+    public Tiposuelo recuperarTiposuelo(String nombre) {
+        return DAO.recuperarTiposuelo(nombre);
+    }
+    
+    public Estadocampo recuperarEstadocampo(String nombre) {
+        return DAO.recuperarEstadocampo(nombre);
+    }
+    
+    public Estadoproyecto recuperarEstadoproyecto(String nombre) {
+        return DAO.recuperarEstadoproyecto(nombre);
+    }
+    
+    public Cultivo recuperarCultivo(String nombre) {
+        return DAO.recuperarCultivo(nombre);
+    }
+    
+    public void actualizarEstadoCampo(Campo campo) {
+        String nombreNuevoEstado = campo.verEstadoActualizado();
+        Estadocampo nuevoEstado = recuperarEstadocampo(nombreNuevoEstado);
+        campo.setEstadocampo(nuevoEstado);
+        actualizarObjeto(campo);
     }
 }
