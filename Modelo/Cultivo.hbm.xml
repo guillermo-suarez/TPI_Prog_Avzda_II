@@ -11,19 +11,19 @@
         <property name="nombre" type="string">
             <column name="nombre" length="30" not-null="true" />
         </property>
-        <set name="cultivoxtiposuelos" table="cultivoxtiposuelo" inverse="true" lazy="true" fetch="select">
+        <set name="cultivoxtiposuelos" table="cultivoxtiposuelo" inverse="true" lazy="true" fetch="select" order-by="idcultivoxtiposuelo">
             <key>
                 <column name="idcultivo" not-null="true" />
             </key>
             <one-to-many class="Modelo.Cultivoxtiposuelo" />
         </set>
-        <set name="cultivoxlaboreos" table="cultivoxlaboreo" inverse="true" lazy="true" fetch="select">
+        <set name="cultivoxlaboreos" table="cultivoxlaboreo" inverse="true" lazy="true" fetch="select" order-by="idcultivoxlaboreo">
             <key>
                 <column name="idcultivo" not-null="true" />
             </key>
             <one-to-many class="Modelo.Cultivoxlaboreo" />
         </set>
-        <set name="proyectos" table="proyecto" inverse="true" lazy="true" fetch="select">
+        <set name="proyectos" table="proyecto" inverse="true" lazy="true" fetch="select" order-by="idproyecto">
             <key>
                 <column name="idcultivo" not-null="true" />
             </key>

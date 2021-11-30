@@ -22,29 +22,31 @@ import javax.persistence.Table;
 @Table(name="lote"
     ,schema="public"
 )
-public class Lote  implements java.io.Serializable {
+public class Lote implements java.io.Serializable {
 
 
      private int idlote;
      private Campo campo;
      private Tiposuelo tiposuelo;
      private float superficie;
+     private boolean activo;
      private Set<Proyecto> proyectos = new HashSet<Proyecto>(0);
 
     public Lote() {
     }
-
-	
+    
     public Lote(Campo campo, Tiposuelo tiposuelo, float superficie) {
         this.campo = campo;
         this.tiposuelo = tiposuelo;
         this.superficie = superficie;
+        this.activo = true;
     }
     public Lote(Campo campo, Tiposuelo tiposuelo, float superficie, Set<Proyecto> proyectos) {
        this.campo = campo;
        this.tiposuelo = tiposuelo;
        this.superficie = superficie;
        this.proyectos = proyectos;
+       this.activo = true;
     }
    
      @Id 
@@ -99,9 +101,24 @@ public class Lote  implements java.io.Serializable {
         this.proyectos = proyectos;
     }
 
+    public boolean isActivo() {
+        return activo;
+    }
 
-
-
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    
+    public Proyecto tieneProyectoActivo() {
+        Proyecto proyectoActivo = null;
+        for(Proyecto p: this.proyectos) {
+            if(p.estaActivo()) {
+                proyectoActivo = p;
+                break;
+            }
+        }
+        return proyectoActivo;
+    }
 }
 
 

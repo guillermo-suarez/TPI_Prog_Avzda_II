@@ -11,13 +11,13 @@
         <property name="nombre" type="string">
             <column name="nombre" length="30" not-null="true" />
         </property>
-        <set name="cultivoxtiposuelos" table="cultivoxtiposuelo" inverse="true" lazy="true" fetch="select">
+        <set name="cultivoxtiposuelos" table="cultivoxtiposuelo" inverse="true" lazy="true" fetch="select" order-by="idcultivoxtiposuelo">
             <key>
                 <column name="idtiposuelo" not-null="true" />
             </key>
             <one-to-many class="Modelo.Cultivoxtiposuelo" />
         </set>
-        <set name="lotes" table="lote" inverse="true" lazy="true" fetch="select">
+        <set name="lotes" table="lote" inverse="true" lazy="true" fetch="select" order-by="idlote">
             <key>
                 <column name="idtiposuelo" not-null="true" />
             </key>

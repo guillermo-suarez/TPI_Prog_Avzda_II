@@ -66,6 +66,7 @@ public class Campo  implements java.io.Serializable {
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="campo")
     public Set<Lote> getLotes() {
+        
         return this.lotes;
     }
     
@@ -74,23 +75,24 @@ public class Campo  implements java.io.Serializable {
     }
     
     public String verEstadoActualizado() {
-        int sizeLote=0, sizeProyectos=0;
+        int contLotesConProyectoActivo = 0;
         for(Lote l: this.lotes) {
-            for(Proyecto p: l.getProyectos()) {
-                if(!(p.getEstadoproyecto().getNombre().equals("Cancelado"))&&!(p.getEstadoproyecto().getNombre().equals("Terminado")))
-                sizeProyectos++;
+            if(l.tieneProyectoActivo() != null) {
+                contLotesConProyectoActivo++;
             }
-            sizeLote++;
+            /*for(Proyecto p: l.getProyectos()) {
+                if(!(p.getEstadoproyecto().getNombre().equals("Cancelado"))&&!(p.getEstadoproyecto().getNombre().equals("Terminado")))
+                contLotesConProyectoActivo++;
+            }
+            sizeLote++;*/
         }
         String cadena = null;
-        if(sizeLote==sizeProyectos) {
+        if(lotes.size() == contLotesConProyectoActivo) {
             cadena = "Completamente trabajado";
+        } else if(contLotesConProyectoActivo > 0) {
+            cadena = "Parcialmente trabajado";
         } else {
-            if(sizeProyectos>0) {
-                cadena = "Parcialmente trabajado";
-            } else {
-                cadena = "En desuso";
-            }
+            cadena = "En desuso";
         }
         return cadena;
     }

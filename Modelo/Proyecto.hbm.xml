@@ -17,7 +17,7 @@
         <many-to-one name="lote" class="Modelo.Lote" fetch="select">
             <column name="idlote" not-null="true" />
         </many-to-one>
-        <set name="proyectoxlaboreos" table="proyectoxlaboreo" inverse="true" lazy="true" fetch="select">
+        <set name="proyectoxlaboreos" table="proyectoxlaboreo" inverse="true" lazy="true" fetch="select" order-by="idproyectoxlaboreo">
             <key>
                 <column name="idproyecto" not-null="true" />
             </key>

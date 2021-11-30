@@ -92,10 +92,25 @@ public class Cultivo  implements java.io.Serializable {
     public void setProyectos(Set<Proyecto> proyectos) {
         this.proyectos = proyectos;
     }
-
-
-
-
+    
+    public boolean tieneLaboreos() {
+        boolean tiene = false;
+        if(this.cultivoxlaboreos.size() > 0) {
+            tiene = true;
+        }
+        return tiene;
+    }
+    
+    public Laboreo getPrimerLaboreo() {
+        Laboreo primerLaboreo = null;
+        for(Cultivoxlaboreo cxl: this.cultivoxlaboreos) {
+            if(cxl.getOrden() == 1) {
+                primerLaboreo = cxl.getLaboreo();
+                break;
+            }
+        }
+        return primerLaboreo;
+    }
 }
 
 

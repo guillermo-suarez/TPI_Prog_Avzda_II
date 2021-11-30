@@ -11,7 +11,7 @@
         <many-to-one name="estadocampo" class="Modelo.Estadocampo" fetch="select">
             <column name="idestadocampo" not-null="true" />
         </many-to-one>
-        <set name="lotes" table="lote" inverse="true" lazy="true" fetch="select">
+        <set name="lotes" table="lote" inverse="true" lazy="true" fetch="select" order-by="idlote">
             <key>
                 <column name="idcampo" not-null="true" />
             </key>

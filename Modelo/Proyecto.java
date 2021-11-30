@@ -98,10 +98,14 @@ public class Proyecto  implements java.io.Serializable {
     public void setProyectoxlaboreos(Set<Proyectoxlaboreo> proyectoxlaboreos) {
         this.proyectoxlaboreos = proyectoxlaboreos;
     }
-
-
-
-
+    
+    public boolean estaActivo() {
+        boolean activo = true;
+        if((this.estadoproyecto.getNombre().equals("Terminado")) || (this.estadoproyecto.getNombre().equals("Cancelado"))) {
+            activo = false;
+        }
+        return activo;
+    }
 }
 
 
