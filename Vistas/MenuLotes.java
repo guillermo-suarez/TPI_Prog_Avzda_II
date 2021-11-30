@@ -33,6 +33,7 @@ public class MenuLotes extends javax.swing.JFrame {
         this.campo = campo;
         tblListModel = tblLotes.getSelectionModel();
         tblListModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
             public void valueChanged(ListSelectionEvent evt) {
                 tblListModelValueChanged(evt);
             }
@@ -168,9 +169,9 @@ public class MenuLotes extends javax.swing.JFrame {
                             .addComponent(lblNumero1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNumeroLote)
-                            .addComponent(txtCampo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtCampo, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                            .addComponent(txtNumeroLote))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNumero2)
                             .addComponent(jLabel1))
@@ -185,7 +186,7 @@ public class MenuLotes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPanel1Layout.createSequentialGroup()
                         .addComponent(lblvariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -215,7 +216,7 @@ public class MenuLotes extends javax.swing.JFrame {
                     .addComponent(btnProyecto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAtras)
                     .addComponent(lblvariable))
@@ -245,38 +246,34 @@ public class MenuLotes extends javax.swing.JFrame {
         if(this.txtMetros.getText().equals("")) {
             this.lblvariable.setText("Ingrese valores válidos.");
         } else {
-            Estadoproyecto ep = this.controlador.getEstadosProyecto().get(this.tblLotes.getSelectedRow());
-            ep.setNombre(this.txtMetros.getText());
-            this.controlador.actualizarObjeto(ep);
+            loteSeleccionado.setSuperficie(Float.parseFloat(txtMetros.getText()));
+            this.controlador.actualizarObjeto(loteSeleccionado);
             this.deseleccionarFila();
             this.iniciarTabla();
-            this.lblvariable.setText("Estado de proyecto actualizado.");
+            this.lblvariable.setText("Lote actualizado.");
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        Estadoproyecto ep;
-        ep = this.controlador.getEstadosProyecto().get(this.tblLotes.getSelectedRow());
-        this.controlador.borrarObjeto(ep);
+        this.campo.getLotes().remove(loteSeleccionado);
+        this.controlador.actualizarObjeto(this.campo);
+        this.controlador.borrarObjeto(loteSeleccionado);
         this.deseleccionarFila();
         this.iniciarTabla();
-        this.lblvariable.setText("Estado de proyecto borrado.");
+        this.lblvariable.setText("Lote borrado.");
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if("".equals(txtMetros.getText())) {
             lblvariable.setText("Ingrese un valor valido");
         } else {
-            Tiposuelo aux = null;
-            String s = (String) (boxTipo.getSelectedItem());
-            for (Tiposuelo ts: controlador.getTiposSuelo()) {
-                if(ts.getNombre().equals(s)) {
-                    aux = ts;
-                    break;
-                }
-            }
-            Lote l = new Lote(campo, aux, Float.parseFloat(txtMetros.getText()));
+            String nombreSuelo = String.valueOf(boxTipo.getSelectedItem());
+            Tiposuelo sueloSeleccionado = this.controlador.recuperarTiposuelo(nombreSuelo);
+            Lote l = new Lote(this.campo, sueloSeleccionado, Float.parseFloat(txtMetros.getText()));
+            campo.getLotes().add(l);
             controlador.agregarObjeto(l);
+            controlador.actualizarEstadoCampo(this.campo);
+            controlador.actualizarObjeto(this.campo);
             iniciarTabla();
             lblvariable.setText("Elemento agregado");
         }
@@ -284,7 +281,7 @@ public class MenuLotes extends javax.swing.JFrame {
 
     private void btnProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectoActionPerformed
         // Si el lote seleccionado no tiene un proyecto activo...
-        if((this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 4)).equals("No hay proyecto")) {       
+        if(loteSeleccionado.tieneProyectoActivo() == null) {       
             // Se va al menú para crear y empezar un proyecto
             MenuCrearProyecto mcp = new MenuCrearProyecto(controlador, loteSeleccionado);
             mcp.setVisible(true);
@@ -292,43 +289,47 @@ public class MenuLotes extends javax.swing.JFrame {
         // Si el lote seleccionado tiene un proyecto activo
         } else {
             // Se recupera dicho proyecto activo
-            Proyecto proyectoActivo = null;
-            for(Proyecto p: loteSeleccionado.getProyectos()) {
+            Proyecto proyectoActivo = loteSeleccionado.tieneProyectoActivo();
+            /*for(Proyecto p: loteSeleccionado.getProyectos()) {
                 if(!(p.getEstadoproyecto().getNombre().equals("Terminado")) && !(p.getEstadoproyecto().getNombre().equals("Cancelado"))) {
                     proyectoActivo = p;
                     break;
                 }
-            }
+            }*/
             // Y se va al menú para ver y modificar el proyecto activo
             this.dispose();
             MenuLaboreoProyecto mlp = new MenuLaboreoProyecto(controlador, proyectoActivo);
         }
     }//GEN-LAST:event_btnProyectoActionPerformed
     public void iniciarTabla() {
-        //no pude castear el set
-        for(Lote l: campo.getLotes()) {
+        this.campo = (Campo) controlador.recuperarUno(Campo.class, campo.getIdcampo());
+        this.txtCampo.setText(String.valueOf(this.campo.getIdcampo()));
+        /*for(Lote l: campo.getLotes()) {
             listLotes.add(l);
-        }
-        //listLotes = this.campo.getLotes();
+        }*/
         DefaultTableModel tblModel = (DefaultTableModel) tblLotes.getModel();
         tblModel.setRowCount(0);
-        for(Lote l: this.listLotes) {
-            String bandera = "No hay proyecto";
+        for(Lote l: campo.getLotes()) {
             String nroCampo = String.valueOf(campo.getIdcampo());
             String nroLote = String.valueOf(l.getIdlote());
             String tipoSuelo = l.getTiposuelo().getNombre();
             String metros = String.valueOf(l.getSuperficie());
-            for(Proyecto p: l.getProyectos()) {
+            String estado = "No hay proyecto";
+            Proyecto proyectoActivo = l.tieneProyectoActivo();
+            if(proyectoActivo != null) {
+                estado = proyectoActivo.getEstadoproyecto().getNombre();
+            }
+            /*for(Proyecto p: l.getProyectos()) {
                if (!(p.getEstadoproyecto().getNombre().equals("Terminado")) && !(p.getEstadoproyecto().getNombre().equals("Cancelado"))) {
                    bandera = p.getEstadoproyecto().getNombre();
                    break;
                }
-            }
-            String[] tblData = {nroCampo, nroLote,tipoSuelo, metros, bandera};
+            }*/
+            String[] tblData = {nroCampo, nroLote,tipoSuelo, metros, estado};
             tblModel.addRow(tblData);
         }
-        for(Tiposuelo ts: controlador.getTiposSuelo())
-        {
+        deseleccionarFila();
+        for(Tiposuelo ts: controlador.getTiposSuelo()) {
             boxTipo.addItem(ts.getNombre());
         }
         this.btnAgregar.setEnabled(true);
@@ -343,15 +344,16 @@ public class MenuLotes extends javax.swing.JFrame {
             this.btnBorrar.setEnabled(true);
             this.btnActualizar.setEnabled(true);
             this.btnProyecto.setEnabled(true);
-            this.txtCampo.setText(String.valueOf(this.campo.getIdcampo()));
-            for(Lote l: listLotes) {
+            int idLoteSeleccionado = Integer.parseInt((String) tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));
+            this.loteSeleccionado = (Lote) controlador.recuperarUno(Lote.class, idLoteSeleccionado);
+            /*for(Lote l: listLotes) {
                 if(l.getIdlote() == Integer.parseInt((String)tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1))) {
                     this.loteSeleccionado = l;
                     break;
                 }
-            }
+            }*/
             this.txtNumeroLote.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 0));
-            this.txtMetros.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));     
+            this.txtMetros.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 3));     
         }
     }
     private void deseleccionarFila() {

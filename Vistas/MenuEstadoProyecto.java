@@ -225,7 +225,9 @@ public class MenuEstadoProyecto extends javax.swing.JFrame {
         if(this.txtNombre.getText().equals("")) {
             this.lblvariable.setText("Ingrese un nombre válido.");
         } else {
-            Estadoproyecto ep = this.controlador.getEstadosProyecto().get(this.tblEstadosProyecto.getSelectedRow());
+            //Estadoproyecto ep = this.controlador.getEstadosProyecto().get(this.tblEstadosProyecto.getSelectedRow());
+            int idEstadoProyecto = Integer.parseInt((String) this.tblEstadosProyecto.getValueAt(tblEstadosProyecto.getSelectedRow(), 0));
+            Estadoproyecto ep = (Estadoproyecto) this.controlador.recuperarUno(Estadoproyecto.class, idEstadoProyecto);
             ep.setNombre(this.txtNombre.getText());
             this.controlador.actualizarObjeto(ep);
             this.deseleccionarFila();

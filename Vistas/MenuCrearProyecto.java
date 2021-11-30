@@ -8,24 +8,32 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
     
     private Lote lote;
     private Controlador controlador;
+    private Estadoproyecto estadoEnPreparacion;
     private Proyecto p;
     
     public MenuCrearProyecto(Controlador controlador, Lote lote) {        
         initComponents();
         this.lote = lote;
         this.controlador = controlador;
+        this.estadoEnPreparacion = controlador.recuperarEstadoproyecto("En preparación");
         p = null;
         iniciarTabla();
     }
 
     
-    public void iniciarTabla(){    
-    txtCampo.setText(String.valueOf(lote.getCampo().getIdcampo()));
-    txtLote.setText(String.valueOf(lote.getIdlote()));
-    txtSuelo.setText(String.valueOf(lote.getTiposuelo().getNombre()));
-    lote.getTiposuelo().getCultivoxtiposuelos().forEach((cxts) -> {
-        boxCultivo.addItem(cxts.getCultivo().getNombre());
-    });
+    public void iniciarTabla() {    
+        txtCampo.setText(String.valueOf(lote.getCampo().getIdcampo()));
+        txtLote.setText(String.valueOf(lote.getIdlote()));
+        Tiposuelo sueloDelLote = lote.getTiposuelo();
+        txtSuelo.setText(sueloDelLote.getNombre());
+        for(Cultivoxtiposuelo cxts: sueloDelLote.getCultivoxtiposuelos()) {
+            if(cxts.getCultivo().tieneLaboreos()) {
+                boxCultivo.addItem(cxts.getCultivo().getNombre());
+            }
+        }
+        /*lote.getTiposuelo().getCultivoxtiposuelos().forEach((cxts) -> {
+            boxCultivo.addItem(cxts.getCultivo().getNombre());
+        });*/
     }
     
     @SuppressWarnings("unchecked")
@@ -162,10 +170,10 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        Cultivo cultivoS = null;
-        Estadoproyecto estadoproyectoS = null;
-        Laboreo primerLaboreo = new Laboreo();
-        for(Cultivo c: controlador.getCultivos()) {
+        Cultivo cultivoS = controlador.recuperarCultivo((String)boxCultivo.getSelectedItem());
+        //Estadoproyecto estadoproyectoS = null;
+        Laboreo primerLaboreo = cultivoS.getPrimerLaboreo();
+        /*for(Cultivo c: controlador.getCultivos()) {
             if(c.getNombre().equals((String)boxCultivo.getSelectedItem())) {
                 cultivoS = c;               
                 break;
@@ -189,21 +197,22 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
                 }
                 break;
             }
-        }
-        this.p = new Proyecto(cultivoS, estadoproyectoS, lote);
+        }*/
+        this.p = new Proyecto(cultivoS, estadoEnPreparacion, lote);
         Proyectoxlaboreo pxl = new Proyectoxlaboreo(primerLaboreo, p, new Date(), null);
         p.getProyectoxlaboreos().add(pxl);
         controlador.agregarObjeto(p);
         controlador.agregarObjeto(pxl);
         lote.getProyectos().add(p);
         controlador.actualizarObjeto(lote);
-        String c = p.getLote().getCampo().verEstadoActualizado();
-        for(Estadocampo ec:controlador.getEstadosCampo())
-        {
+        controlador.actualizarEstadoCampo(lote.getCampo());
+        /*String nombreEstadoCampo = p.getLote().getCampo().verEstadoActualizado();
+        Estadocampo nuevoEstadoCampo = controlador.recuperarEstadocampo(nombreEstadoCampo);for(Estadocampo ec:controlador.getEstadosCampo()) {
             if(ec.getNombre().equals(c))
                 p.getLote().getCampo().setEstadocampo(ec);
         }
-        controlador.actualizarObjeto(p.getLote().getCampo());
+        p.getLote().getCampo().setEstadocampo(nuevoEstadoCampo);
+        controlador.actualizarObjeto(p.getLote().getCampo());*/
         MenuLaboreoProyecto mlp = new MenuLaboreoProyecto(this.controlador, p);
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
