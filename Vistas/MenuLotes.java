@@ -294,7 +294,7 @@ public class MenuLotes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        if(this.txtMetros.getText().equals("")) {
+        if(!controlador.esFloat(txtMetros.getText())) {
             this.lblvariable.setText("Ingrese valores válidos.");
         } else {
             loteSeleccionado.setSuperficie(Float.parseFloat(txtMetros.getText()));
@@ -315,7 +315,7 @@ public class MenuLotes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if("".equals(txtMetros.getText())) {
+        if(!controlador.esFloat(txtMetros.getText())) {
             lblvariable.setText("Ingrese un valor valido");
         } else {
             String nombreSuelo = String.valueOf(boxTipo.getSelectedItem());
@@ -391,15 +391,37 @@ public class MenuLotes extends javax.swing.JFrame {
         for(Tiposuelo ts: controlador.getTiposSuelo()) {
             boxTipo.addItem(ts.getNombre());
         }
+        if(campo.estaDadoDeBaja())
+        {
+        this.btnAgregar.setEnabled(false);
+        this.btnBorrar.setEnabled(false);
+        this.btnActualizar.setEnabled(false);
+        this.btnProyecto.setEnabled(false);
+        this.btnSeparar.setEnabled(false);
+        this.btnUnir.setEnabled(false);            
+        }
+        else
+        {            
         this.btnAgregar.setEnabled(true);
         this.btnBorrar.setEnabled(false);
         this.btnActualizar.setEnabled(false);
         this.btnProyecto.setEnabled(false);
         this.btnSeparar.setEnabled(false);
         this.btnUnir.setEnabled(false);
+        }
     }
     
     private void tblListModelValueChanged(ListSelectionEvent evt){
+        
+        if(campo.estaDadoDeBaja())
+        {
+        this.btnAgregar.setEnabled(false);
+        this.btnBorrar.setEnabled(false);
+        this.btnActualizar.setEnabled(false);
+        this.btnProyecto.setEnabled(false);
+        this.btnSeparar.setEnabled(false);
+        this.btnUnir.setEnabled(false);            
+        }else
         if(this.tblListModel.getSelectedItemsCount() == 1) {
             this.btnAgregar.setEnabled(false);
             this.btnBorrar.setEnabled(true);

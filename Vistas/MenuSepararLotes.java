@@ -116,7 +116,7 @@ Controlador controlador;
     }//GEN-LAST:event_btnTerminarActionPerformed
 
     private void btnSepararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSepararActionPerformed
-        if(txtMetros.getText().equals(""))
+        if(!controlador.esFloat(txtMetros.getText()))
         {
             JOptionPane.showMessageDialog(this, "Ingrese la cantidad de metros a asignar al nuevo lote.", "Error", JOptionPane.ERROR_MESSAGE);
         }
