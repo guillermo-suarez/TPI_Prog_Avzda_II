@@ -427,10 +427,13 @@ public class MenuLotes extends javax.swing.JFrame {
             this.btnBorrar.setEnabled(true);
             this.btnActualizar.setEnabled(true);
             this.btnProyecto.setEnabled(true);
-            this.btnSeparar.setEnabled(true);
-            
+            this.btnSeparar.setEnabled(true);            
             int idLoteSeleccionado = Integer.parseInt((String) tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));
             this.loteSeleccionado = (Lote) controlador.recuperarUno(Lote.class, idLoteSeleccionado);
+            if(loteSeleccionado.getProyectos().size()>0)
+            {
+                btnBorrar.setEnabled(false);
+            }
             this.txtNumeroLote.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 0));
             this.txtMetros.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 3));     
         }
