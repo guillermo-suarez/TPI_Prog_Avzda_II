@@ -20,5 +20,8 @@
         <property name="fechafin" type="date">
             <column name="fechafin" length="13" />
         </property>
+        <property name="orden" type="int">
+            <column name="orden" />
+        </property>
     </class>
 </hibernate-mapping>

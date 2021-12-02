@@ -30,21 +30,24 @@ public class Proyectoxlaboreo  implements java.io.Serializable {
      private Proyecto proyecto;
      private Date fechainicio;
      private Date fechafin;
+     private int orden;
 
     public Proyectoxlaboreo() {
     }
 
 	
-    public Proyectoxlaboreo(Laboreo laboreo, Proyecto proyecto) {
+    public Proyectoxlaboreo(Laboreo laboreo, Proyecto proyecto, int orden) {
         this.laboreo = laboreo;
         this.proyecto = proyecto;
+        this.orden = orden;
     }
     
-    public Proyectoxlaboreo(Laboreo laboreo, Proyecto proyecto, Date fechainicio, Date fechafin) {
+    public Proyectoxlaboreo(Laboreo laboreo, Proyecto proyecto, Date fechainicio, Date fechafin, int orden) {
        this.laboreo = laboreo;
        this.proyecto = proyecto;
        this.fechainicio = fechainicio;
        this.fechafin = fechafin;
+       this.orden = orden;
     }
    
      @Id 
@@ -100,9 +103,15 @@ public class Proyectoxlaboreo  implements java.io.Serializable {
         this.fechafin = fechafin;
     }
 
+    public int getOrden() {
+        return orden;
+    }
 
-
-
+    public void setOrden(int orden) {
+        this.orden = orden;
+    }
+    
+    
 }
 
 
