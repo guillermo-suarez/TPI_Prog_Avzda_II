@@ -4,20 +4,21 @@ import Controlador.Controlador;
 import Modelo.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class MenuLaboreoProyecto extends javax.swing.JFrame {
 
     private final Controlador controlador;
     private Proyecto proyecto;
-    private List<Proyectoxlaboreo> listLxP;
+    private Lote lote;
+    private Campo campo;
     
     public MenuLaboreoProyecto(Controlador controlador, Proyecto proyecto) {
         this.controlador = controlador;
         this.proyecto = proyecto;
+        this.lote = this.proyecto.getLote();
+        this.campo = this.lote.getCampo();
         initComponents();
         iniciarTabla();
         setVisible(true);
@@ -48,7 +49,6 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu de Proyecto");
-        setPreferredSize(null);
         setResizable(false);
 
         pnlPanel1.setPreferredSize(new java.awt.Dimension(324, 300));
@@ -128,43 +128,42 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPanel1Layout.createSequentialGroup()
-                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblLote)
-                            .addComponent(lblCampo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNumeroLote)
-                            .addComponent(txtCampo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblProyecto)
-                            .addComponent(lblCultivo))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPanel1Layout.createSequentialGroup()
+                        .addComponent(lblvariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtProyecto)
-                            .addComponent(txtCultivo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnlPanel1Layout.createSequentialGroup()
-                                .addComponent(lblEstadoProyecto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnActualizar))
-                            .addComponent(boxEstadoP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
+                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(pnlPanel1Layout.createSequentialGroup()
-                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlPanel1Layout.createSequentialGroup()
-                                .addComponent(lblvariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblLote)
+                                    .addComponent(lblCampo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNumeroLote)
+                                    .addComponent(txtCampo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblProyecto)
+                                    .addComponent(lblCultivo))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPanel1Layout.createSequentialGroup()
+                                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtProyecto)
+                                    .addComponent(txtCultivo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(pnlPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblEstadoProyecto)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnActualizar))
+                                    .addComponent(boxEstadoP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(pnlPanel1Layout.createSequentialGroup()
                                 .addComponent(btnNextLaboreo, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCancelarP, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                .addComponent(btnCancelarP, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnlPanel1Layout.setVerticalGroup(
             pnlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +207,7 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,44 +223,23 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnCancelarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPActionPerformed
-        for (Estadoproyecto x: this.controlador.getEstadosProyecto()) {
-            if("Cancelado".equals(x.getNombre())) {
-               this.proyecto.setEstadoproyecto(x);
-               break;
-            }
-        }
+        Estadoproyecto estadoCancelado = controlador.recuperarEstadoproyecto("Cancelado");
+        this.proyecto.setEstadoproyecto(estadoCancelado);
         controlador.actualizarObjeto(proyecto);
-        String c = proyecto.getLote().getCampo().verEstadoActualizado();
-        for(Estadocampo ec:controlador.getEstadosCampo())
-        {
-            if(ec.getNombre().equals(c))
-                proyecto.getLote().getCampo().setEstadocampo(ec);
-        }
-        controlador.actualizarObjeto(proyecto.getLote().getCampo());
+        int idCampo = this.campo.getIdcampo();
+        this.campo = (Campo) controlador.recuperarUno(Campo.class, idCampo);
+        controlador.actualizarEstadoCampo(this.campo);
         iniciarTabla();
         lblvariable.setText("Proyecto cancelado");
     }//GEN-LAST:event_btnCancelarPActionPerformed
 
     private void btnNextLaboreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextLaboreoActionPerformed
         // Recuperamos el numero de orden del laboreo que se esta terminando
-        int ultimoOrden = 0;
-        for(int i = 0; i < tblLaboreos.getRowCount(); i++) {
-            if((Integer.valueOf((String) tblLaboreos.getValueAt(i, 0))) > ultimoOrden) {
-                ultimoOrden = (Integer.valueOf((String) tblLaboreos.getValueAt(i, 0)));
-            }
-        }
-        // Recuperamos el ultimo laboreo: aquel que se esta terminando ahora
-        Laboreo ultimoLaboreo = null;
-        for(Cultivoxlaboreo cxl: this.proyecto.getCultivo().getCultivoxlaboreos()) {
-            if(cxl.getOrden() == ultimoOrden) {
-                ultimoLaboreo = cxl.getLaboreo();
-                break;
-            }
-        }
+        int ultimoOrden = this.proyecto.getProyectoxlaboreos().size();
         // Ahora recuperamos el proyectoxlaboreo correspondiente
         Proyectoxlaboreo ultimoPxL = null;
         for(Proyectoxlaboreo pxl: this.proyecto.getProyectoxlaboreos()) {
-            if(pxl.getLaboreo().getIdlaboreo() == ultimoLaboreo.getIdlaboreo()) {
+            if((pxl.getOrden() == ultimoOrden)) {
                 ultimoPxL = pxl;
                 break;
             }
@@ -295,7 +273,7 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
                     break;
                 }
             }
-            Proyectoxlaboreo nuevoPxL = new Proyectoxlaboreo(proximoLaboreo, proyecto, new Date(), null);
+            Proyectoxlaboreo nuevoPxL = new Proyectoxlaboreo(proximoLaboreo, proyecto, new Date(), null, ultimoOrden + 1);
             proyecto.getProyectoxlaboreos().add(nuevoPxL);
             controlador.actualizarObjeto(proyecto);
             controlador.agregarObjeto(nuevoPxL);
@@ -337,63 +315,44 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void iniciarTabla() {
-        int idCAux = proyecto.getLote().getCampo().getIdcampo();
-        int idLAux = proyecto.getLote().getIdlote();
-        int idPAux = proyecto.getIdproyecto();
-        for(Campo c: controlador.getCampos()) {
-            if(c.getIdcampo() == idCAux) {
-                for(Lote l: c.getLotes()) {
-                    if(l.getIdlote() == idLAux) {
-                        for(Proyecto p: l.getProyectos()) {
-                            if(p.getIdproyecto() == idPAux) {
-                                this.proyecto = p;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-        listLxP = new ArrayList<>(this.proyecto.getProyectoxlaboreos());
+        int idProyecto = proyecto.getIdproyecto();
+        this.proyecto = (Proyecto) controlador.recuperarUno(Proyecto.class, idProyecto);
         DefaultTableModel tblModel = (DefaultTableModel) tblLaboreos.getModel();
         tblModel.setRowCount(0);
-        String orden = null;
-        for(Proyectoxlaboreo aux: listLxP) {
-            for(Cultivoxlaboreo cxl: aux.getProyecto().getCultivo().getCultivoxlaboreos()) {
-                if(cxl.getLaboreo().equals(aux.getLaboreo())) {
-                    orden = String.valueOf(cxl.getOrden());
-                    break;
-                }
-            }
-            String laboreo = aux.getLaboreo().getNombre();
-            DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
-            String fechainicio = dateFormat.format(aux.getFechainicio());
+        for(Proyectoxlaboreo pxl: this.proyecto.getProyectoxlaboreos()) {
+            String orden = String.valueOf(pxl.getOrden());
+            String laboreo = pxl.getLaboreo().getNombre();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+            String fechainicio = dateFormat.format(pxl.getFechainicio());
             String fechafin = null;
-            if(aux.getFechafin() != null) {
-                fechafin = dateFormat.format(aux.getFechafin()); 
+            if(pxl.getFechafin() != null) {
+                fechafin = dateFormat.format(pxl.getFechafin());
             }
             String[] tblData = {orden, laboreo, fechainicio, fechafin};
-            tblModel.addRow(tblData);                     
+            tblModel.addRow(tblData);
         }
-        
-        this.txtCampo.setText(String.valueOf(proyecto.getLote().getCampo().getIdcampo()));
-        this.txtNumeroLote.setText(String.valueOf(proyecto.getLote().getIdlote()));
+        this.txtCampo.setText(String.valueOf(this.campo.getIdcampo()));
+        this.txtNumeroLote.setText(String.valueOf(this.lote.getIdlote()));
         this.txtProyecto.setText(String.valueOf(proyecto.getIdproyecto()));
         this.txtCultivo.setText(proyecto.getCultivo().getNombre());
         //Cargar el combobox de estadoproyecto
         boxEstadoP.removeAllItems();
         //Si el proyecto esta terminado...
+        boxEstadoP.setEnabled(false);
+        btnActualizar.setEnabled(false);
+        btnNextLaboreo.setEnabled(false);
+        btnCancelarP.setEnabled(false);
         if(proyecto.getEstadoproyecto().getNombre().equals("Terminado")) {
             boxEstadoP.addItem("Terminado");
-            boxEstadoP.setEnabled(false);
         //Si el proyecto esta cancelado...
         } else if(proyecto.getEstadoproyecto().getNombre().equals("Cancelado")) {
             boxEstadoP.addItem("Cancelado");
-            boxEstadoP.setEnabled(false);
         //Si el proyecto no esta ni terminado ni cancelado...
         } else {
+            boxEstadoP.setEnabled(true);
+            btnActualizar.setEnabled(true);
+            btnNextLaboreo.setEnabled(true);
+            btnCancelarP.setEnabled(true);
             //Se cargan todos los estadosproyecto que no sean terminado ni cancelado
             for(Estadoproyecto ep : controlador.getEstadosProyecto()) {
                 if(!(ep.getNombre().equals("Terminado")) && !(ep.getNombre().equals("Cancelado"))) {

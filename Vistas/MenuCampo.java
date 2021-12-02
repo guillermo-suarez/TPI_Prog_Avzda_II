@@ -80,6 +80,8 @@ public class MenuCampo extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblCampos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblCampos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblCampos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblCampos);
         if (tblCampos.getColumnModel().getColumnCount() > 0) {
@@ -150,14 +152,14 @@ public class MenuCampo extends javax.swing.JFrame {
                             .addComponent(txtNumero)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -175,10 +177,10 @@ public class MenuCampo extends javax.swing.JFrame {
                     .addComponent(txtNombre)
                     .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnBorrar)
-                    .addComponent(btnBaja))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVerLotes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -210,24 +212,38 @@ public class MenuCampo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-            Estadocampo ec = controlador.getEstadosCampo().get(0);
-            this.controlador.agregarObjeto(new Campo(ec));
-            iniciarTabla();
-            this.lblAviso.setText("Campo agregado.");
-        
+        Estadocampo estadoCreado = controlador.recuperarEstadocampo("Creado");
+        this.controlador.agregarObjeto(new Campo(estadoCreado));
+        iniciarTabla();
+        this.lblAviso.setText("Campo agregado.");
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        if ("Creado".equals(campoSeleccionado.getEstadocampo().getNombre())||"En desuso".equals(campoSeleccionado.getEstadocampo().getNombre())||"Final".equals(campoSeleccionado.getEstadocampo().getNombre()))
-        {
-            this.controlador.borrarObjeto(campoSeleccionado);
-            iniciarTabla();
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "Al borrar un Campo, también se borrarán sus respectivos Lotes con sus respectivos Proyectos, ¿esta de acuerdo?",
+                "Borrar un Campo", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            for(Lote unLote: campoSeleccionado.getLotes()) {
+                for(Proyecto unProyecto: unLote.getProyectos()) {
+                    for(Proyectoxlaboreo unPxL: unProyecto.getProyectoxlaboreos()) {
+                        controlador.borrarObjeto(unPxL);
+                    }
+                    controlador.borrarObjeto(unProyecto);
+                }
+                controlador.borrarObjeto(unLote);
+            }
+            controlador.borrarObjeto(campoSeleccionado);
             this.lblAviso.setText("Campo borrado.");
+        } else {
+            // No
+            this.lblAviso.setText("");
         }
-        else
-        {
-            JOptionPane.showMessageDialog(this, "No se puede borrar un Campo en el que se están realizando proyectos.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        deseleccionarFila();
+        iniciarTabla();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnVerLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerLotesActionPerformed
@@ -237,38 +253,22 @@ public class MenuCampo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerLotesActionPerformed
 
     private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
-        if ("Creado".equals(campoSeleccionado.getEstadocampo().getNombre())||"En desuso".equals(campoSeleccionado.getEstadocampo().getNombre()))
-        {
-            for(Estadocampo ec : controlador.getEstadosCampo())
-            {
-                if ("Final".equals(ec.getNombre()))
-                {
-                    campoSeleccionado.setEstadocampo(ec);                                        
-                }
-            }    
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "Al dar de Baja un Campo, ya no se podrá interactuar con sus Lotes y sus respetivos Proyectos, ¿esta de acuerdo?",
+                "Dar de baja un Campo", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            Estadocampo nuevoEstado = controlador.recuperarEstadocampo("Final");
+            campoSeleccionado.setEstadocampo(nuevoEstado);
             controlador.actualizarObjeto(campoSeleccionado);
-            iniciarTabla();
-            this.lblAviso.setText("Campo dado de baja.");
+        } else {
+            // No
+            deseleccionarFila();
         }
-        else
-        {
-            if("Final".equals(campoSeleccionado.getEstadocampo().getNombre())){
-                for(Estadocampo ec : controlador.getEstadosCampo())
-                {
-                    if ("En desuso".equals(ec.getNombre()))
-                    {
-                    campoSeleccionado.setEstadocampo(ec);                                        
-                    }
-                }    
-                controlador.actualizarObjeto(campoSeleccionado);
-                iniciarTabla();
-                this.lblAviso.setText("Campo recuperado: estado en desuso.");
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(this, "No se puede borrar un Campo en el que se están realizando proyectos.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        iniciarTabla();
     }//GEN-LAST:event_btnBajaActionPerformed
 
     private void iniciarTabla() {
@@ -285,12 +285,21 @@ public class MenuCampo extends javax.swing.JFrame {
     }
     
     private void tblListModelValueChanged(ListSelectionEvent evt) {
-        if(this.tblListModel.getSelectedItemsCount() > 0) {
+        if(this.tblListModel.getSelectedItemsCount() == 1) {
+            int idCampoSeleccionado = Integer.parseInt((String) tblCampos.getValueAt(tblCampos.getSelectedRow(), 0));
+            this.campoSeleccionado = (Campo) controlador.recuperarUno(Campo.class, idCampoSeleccionado);
             this.btnAgregar.setEnabled(false);
-            this.btnBaja.setEnabled(true);
-            this.btnBorrar.setEnabled(true);
             this.btnVerLotes.setEnabled(true);
-            this.campoSeleccionado = this.listCampos.get(this.tblCampos.getSelectedRow());
+            if(campoSeleccionado.estaLibre()) {
+                this.btnBaja.setEnabled(true);
+                this.btnBorrar.setEnabled(true);
+            } else if(campoSeleccionado.estaDadoDeBaja()) {
+                this.btnBaja.setEnabled(false);
+                this.btnBorrar.setEnabled(true);
+            } else {
+                this.btnBaja.setEnabled(false);
+                this.btnBorrar.setEnabled(false);
+            }
             this.txtNumero.setText(String.valueOf(campoSeleccionado.getIdcampo()));
             this.txtNombre.setText(campoSeleccionado.getEstadocampo().getNombre());
         }
