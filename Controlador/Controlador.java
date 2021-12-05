@@ -73,4 +73,16 @@ public class Controlador {
         campo.setEstadocampo(nuevoEstado);
         actualizarObjeto(campo);
     }
+    
+    public boolean esFloat(String texto) {
+        if(texto == null || texto.equals("")) {
+            return false;
+        } 
+        try {
+            Float.parseFloat(texto);
+            return true;
+        } catch(NumberFormatException e) {
+            return false;
+        }
+    }
 }
