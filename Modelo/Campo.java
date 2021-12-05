@@ -75,19 +75,17 @@ public class Campo  implements java.io.Serializable {
     }
     
     public String verEstadoActualizado() {
-        int contLotesConProyectoActivo = 0;
+        int contLotesConProyectoActivo = 0, contLotesActivos = 0;
         for(Lote l: this.lotes) {
-            if(l.tieneProyectoActivo() != null) {
-                contLotesConProyectoActivo++;
+            if(l.isActivo()) {
+                contLotesActivos++;
+                if(l.tieneProyectoActivo() != null) {
+                    contLotesConProyectoActivo++;
+                }
             }
-            /*for(Proyecto p: l.getProyectos()) {
-                if(!(p.getEstadoproyecto().getNombre().equals("Cancelado"))&&!(p.getEstadoproyecto().getNombre().equals("Terminado")))
-                contLotesConProyectoActivo++;
-            }
-            sizeLote++;*/
         }
         String cadena = null;
-        if(lotes.size() == contLotesConProyectoActivo) {
+        if(contLotesActivos == contLotesConProyectoActivo) {
             cadena = "Completamente trabajado";
         } else if(contLotesConProyectoActivo > 0) {
             cadena = "Parcialmente trabajado";
@@ -96,6 +94,25 @@ public class Campo  implements java.io.Serializable {
         }
         return cadena;
     }
+    
+    public boolean estaLibre() {
+        boolean libre = false;
+        String nombreEstadoCampo = this.getEstadocampo().getNombre();
+        if(nombreEstadoCampo.equals("Creado") || nombreEstadoCampo.equals("En desuso")) {
+            libre = true;
+        }
+        return libre;
+    }
+    
+    public boolean estaDadoDeBaja() {
+        boolean baja = false;
+        String nombreEstadoCampo = this.getEstadocampo().getNombre();
+        if(nombreEstadoCampo.equals("Final")) {
+            baja = true;
+        }
+        return baja;
+    }
+    
 }
 
 

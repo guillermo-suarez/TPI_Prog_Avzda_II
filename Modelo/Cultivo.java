@@ -111,6 +111,17 @@ public class Cultivo  implements java.io.Serializable {
         }
         return primerLaboreo;
     }
+    
+    public boolean tieneProyectosActivos() {
+        boolean tiene = false;
+        for(Proyecto p: this.proyectos) {
+            if(p.estaActivo()) {
+                tiene = true;
+                break;
+            }
+        }
+        return tiene;
+    }
 }
 
 

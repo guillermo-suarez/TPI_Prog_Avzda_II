@@ -81,10 +81,6 @@ public class Laboreo  implements java.io.Serializable {
     public void setCultivoxlaboreos(Set<Cultivoxlaboreo> cultivoxlaboreos) {
         this.cultivoxlaboreos = cultivoxlaboreos;
     }
-
-
-
-
 }
 
 
