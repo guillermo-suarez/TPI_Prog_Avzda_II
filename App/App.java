@@ -7,11 +7,11 @@ import javax.swing.SwingUtilities;
 
 public class App {
     public static void main(String[] args) {
+        DAOPostgres DAO = new DAOPostgres();
+        DAO.abrirSesion();
+        Controlador controlador = new Controlador(DAO);
         Runnable run = new Runnable() {
             public void run() {
-                DAOPostgres DAO = new DAOPostgres();
-                DAO.abrirSesion();
-                Controlador controlador = new Controlador(DAO);
                 MenuPrincipal menu = new MenuPrincipal(controlador);
             }
         };
