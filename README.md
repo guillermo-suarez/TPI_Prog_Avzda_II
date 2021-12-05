@@ -6,4 +6,4 @@ En este repositorio se presenta:
 - El diagrama de clases del modelo de datos.
 - El proyecto completo (hecho en NetBeans con Ant) comprimido (.rar)
 
-En este repositorio están únicamente los archivos de la aplicación Desktop. Para ver la versión Web, [click acá](https://github.com/guillermo-suarez/TPI_Prog_Avzda_II_Web).
+En este repositorio están únicamente los archivos de la aplicación Desktop. Para ver el repositorio de la versión Web, [click acá](https://github.com/guillermo-suarez/TPI_Prog_Avzda_II_Web).
