@@ -229,12 +229,30 @@ public class MenuCultivo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        if((cultivoSeleccionado.getCultivoxlaboreos().size() > 0) || (cultivoSeleccionado.getProyectos().size() > 0) || (cultivoSeleccionado.getCultivoxtiposuelos().size() > 0)) {
-            JOptionPane.showMessageDialog(this, "No se puede borrar un Cultivo que es utilizado en otros elementos.", "Error", JOptionPane.ERROR_MESSAGE);
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "¿Desea borrar este Cultivo? Esta acción no podrá deshacerse",
+                "Borrar un Cultivo", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+                for(Cultivoxtiposuelo aux: cultivoSeleccionado.getCultivoxtiposuelos())
+                {
+                    controlador.borrarObjeto(aux);
+                }
+                for(Cultivoxlaboreo aux2: cultivoSeleccionado.getCultivoxlaboreos())
+                {
+                    controlador.borrarObjeto(aux2);
+                }
+                this.controlador.borrarObjeto(cultivoSeleccionado);
+                iniciarTabla();
+                this.lblAviso.setText("Cultivo borrado.");
+
+
         } else {
-            this.controlador.borrarObjeto(cultivoSeleccionado);
-            iniciarTabla();
-            this.lblAviso.setText("Cultivo borrado.");
+            // No
+            this.lblAviso.setText("");
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
@@ -262,7 +280,11 @@ public class MenuCultivo extends javax.swing.JFrame {
             this.btnActualizar.setEnabled(true);
             this.btnBorrar.setEnabled(true);
             this.btnVerLaboreos.setEnabled(true);
-            this.cultivoSeleccionado = this.listCultivos.get(this.tblCultivos.getSelectedRow());
+            int idCultivoSeleccionado = Integer.parseInt((String) tblCultivos.getValueAt(tblCultivos.getSelectedRow(), 0));
+            this.cultivoSeleccionado = (Cultivo) controlador.recuperarUno(Cultivo.class, idCultivoSeleccionado);
+            if(cultivoSeleccionado.getProyectos().size() > 0) {
+                this.btnBorrar.setEnabled(false);
+            }
             this.txtNumero.setText(String.valueOf(cultivoSeleccionado.getIdcultivo()));
             this.txtNombre.setText(cultivoSeleccionado.getNombre());
         }

@@ -25,6 +25,9 @@ public class MenuLaboreosDeUnCultivo extends javax.swing.JFrame {
         this.cbsLaboreos.add(cbLaboreo8);
         this.controlador = controlador;
         this.cultivoSeleccionado = cultivoSeleccionado;
+        if(this.cultivoSeleccionado.tieneProyectosActivos()) {
+            this.btnGuardar.setEnabled(false);
+        }
         this.txtNumero.setText(String.valueOf(cultivoSeleccionado.getIdcultivo()));
         this.txtNombre.setText(cultivoSeleccionado.getNombre());
         iniciarCombosBox();

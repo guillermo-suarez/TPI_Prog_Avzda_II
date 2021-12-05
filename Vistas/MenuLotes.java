@@ -38,6 +38,17 @@ public class MenuLotes extends javax.swing.JFrame {
                 tblListModelValueChanged(evt);
             }
         });
+        if(this.campo.estaDadoDeBaja()) {
+            this.tblListModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            this.txtMetros.setEditable(false);
+            this.boxTipo.setEnabled(false);
+            this.btnAgregar.setEnabled(false);
+            this.btnBorrar.setEnabled(false);
+            this.btnActualizar.setEnabled(false);
+            this.btnProyecto.setEnabled(false);
+            this.btnSeparar.setEnabled(false);
+            this.btnUnir.setEnabled(false); 
+        }
         iniciarTabla();
         setVisible(true);
     }
@@ -306,12 +317,24 @@ public class MenuLotes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        this.campo.getLotes().remove(loteSeleccionado);
-        this.controlador.actualizarObjeto(this.campo);
-        this.controlador.borrarObjeto(loteSeleccionado);
-        this.deseleccionarFila();
-        this.iniciarTabla();
-        this.lblvariable.setText("Lote borrado.");
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "Al borrar un Lote, también se borrarán sus respectivos Proyectos, ¿esta de acuerdo?",
+                "Borrar un Lote", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            this.campo.getLotes().remove(loteSeleccionado);
+            this.controlador.actualizarObjeto(this.campo);
+            this.controlador.borrarObjeto(loteSeleccionado);
+            this.deseleccionarFila();
+            this.iniciarTabla();
+            this.lblvariable.setText("Lote borrado.");
+        } else {
+            // No
+            this.lblvariable.setText("");
+        }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -412,40 +435,36 @@ public class MenuLotes extends javax.swing.JFrame {
     }
     
     private void tblListModelValueChanged(ListSelectionEvent evt){
-        
-        if(campo.estaDadoDeBaja())
-        {
-        this.btnAgregar.setEnabled(false);
-        this.btnBorrar.setEnabled(false);
-        this.btnActualizar.setEnabled(false);
-        this.btnProyecto.setEnabled(false);
-        this.btnSeparar.setEnabled(false);
-        this.btnUnir.setEnabled(false);            
-        }else
         if(this.tblListModel.getSelectedItemsCount() == 1) {
-            this.btnAgregar.setEnabled(false);
-            this.btnBorrar.setEnabled(true);
-            this.btnActualizar.setEnabled(true);
-            this.btnProyecto.setEnabled(true);
-            this.btnSeparar.setEnabled(true);            
+            if(!campo.estaDadoDeBaja()) {
+                this.txtMetros.setEnabled(true);
+                this.btnAgregar.setEnabled(false);
+                this.boxTipo.setEnabled(true);
+                this.btnBorrar.setEnabled(true);
+                this.btnActualizar.setEnabled(true);
+                this.btnProyecto.setEnabled(true);
+                this.btnSeparar.setEnabled(true);
+            }            
             int idLoteSeleccionado = Integer.parseInt((String) tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));
             this.loteSeleccionado = (Lote) controlador.recuperarUno(Lote.class, idLoteSeleccionado);
             if(loteSeleccionado.getProyectos().size()>0)
             {
                 btnBorrar.setEnabled(false);
             }
-            this.txtNumeroLote.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 0));
+            this.txtNumeroLote.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));
             this.txtMetros.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 3));     
-        }
-        if(this.tblListModel.getSelectedItemsCount() > 1) {
+        } else if(this.tblListModel.getSelectedItemsCount() > 1) {
+            this.txtNumeroLote.setText("");
+            this.txtMetros.setText("");
+            this.txtMetros.setEnabled(false);
+            this.boxTipo.setEnabled(false);
             this.btnAgregar.setEnabled(false);
             this.btnBorrar.setEnabled(false);
             this.btnActualizar.setEnabled(false);
             this.btnProyecto.setEnabled(false);
             this.btnSeparar.setEnabled(false);
             this.btnUnir.setEnabled(true);
-            int[] index = tblLotes.getSelectedRows();        
-            int bandera=0;
+            int[] index = tblLotes.getSelectedRows();
             Tiposuelo tp = controlador.recuperarTiposuelo((String) tblLotes.getValueAt(index[0], 2));
             for(int i=0;i<tblLotes.getSelectedRowCount();i++)
             {
@@ -458,9 +477,6 @@ public class MenuLotes extends javax.swing.JFrame {
             }           
         }
     }
-    
-    
-    
     
     private void deseleccionarFila() {
         this.tblListModel.clearSelection();

@@ -219,10 +219,22 @@ public class MenuLaboreo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        Laboreo l = this.controlador.getLaboreos().get(this.tblLaboreos.getSelectedRow());
-        this.controlador.borrarObjeto(l);
-        iniciarTabla();
-        this.lblAviso.setText("Laboreo borrado.");
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "¿Desea borrar este Laboreo? Esta acción no podrá deshacerse",
+                "Borrar un Laboreo", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            Laboreo l = this.controlador.getLaboreos().get(this.tblLaboreos.getSelectedRow());
+            this.controlador.borrarObjeto(l);
+            iniciarTabla();
+            this.lblAviso.setText("Laboreo borrado.");
+        } else {
+            // No
+            this.lblAviso.setText("");
+        }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void iniciarTabla() {
@@ -243,6 +255,10 @@ public class MenuLaboreo extends javax.swing.JFrame {
             this.btnAgregar.setEnabled(false);
             this.btnActualizar.setEnabled(true);
             this.btnBorrar.setEnabled(true);
+            Laboreo l = (Laboreo) controlador.recuperarUno(Laboreo.class, Integer.parseInt((String) tblLaboreos.getValueAt(tblLaboreos.getSelectedRow(), 0)));
+            if(l.getCultivoxlaboreos().size()>0||l.getProyectoxlaboreos().size() > 0) {
+                btnBorrar.setEnabled(false);
+            }
             this.txtNumero.setText((String) this.tblLaboreos.getValueAt(this.tblLaboreos.getSelectedRow(), 0));
             this.txtNombre.setText((String) this.tblLaboreos.getValueAt(this.tblLaboreos.getSelectedRow(), 1));
         }

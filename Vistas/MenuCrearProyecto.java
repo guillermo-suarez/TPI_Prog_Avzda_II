@@ -19,7 +19,6 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
         p = null;
         iniciarTabla();
     }
-
     
     public void iniciarTabla() {    
         txtCampo.setText(String.valueOf(lote.getCampo().getIdcampo()));
@@ -31,9 +30,11 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
                 boxCultivo.addItem(cxts.getCultivo().getNombre());
             }
         }
-        /*lote.getTiposuelo().getCultivoxtiposuelos().forEach((cxts) -> {
-            boxCultivo.addItem(cxts.getCultivo().getNombre());
-        });*/
+        if(boxCultivo.getItemCount() == 0) {
+            btnAceptar.setEnabled(false);
+        } else {
+            btnAceptar.setEnabled(true);
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -77,7 +78,6 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
 
         jLabel5.setText("Cultivo:");
 
-        boxCultivo.setEditable(true);
         boxCultivo.setModel(new javax.swing.DefaultComboBoxModel<>());
 
         btnAceptar.setText("Aceptar");
@@ -170,49 +170,17 @@ public class MenuCrearProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        Cultivo cultivoS = controlador.recuperarCultivo((String)boxCultivo.getSelectedItem());
-        //Estadoproyecto estadoproyectoS = null;
+        Cultivo cultivoS = controlador.recuperarCultivo((String) boxCultivo.getSelectedItem());
         Laboreo primerLaboreo = cultivoS.getPrimerLaboreo();
-        /*for(Cultivo c: controlador.getCultivos()) {
-            if(c.getNombre().equals((String)boxCultivo.getSelectedItem())) {
-                cultivoS = c;               
-                break;
-            }    
-           
-        }
-        for(Estadoproyecto ep: controlador.getEstadosProyecto()) {
-            if(ep.getNombre().equals("En preparación")) {
-                estadoproyectoS = ep;
-                break;
-            }
-        }
-        for(Cultivoxlaboreo cxl: cultivoS.getCultivoxlaboreos()) {
-            // Buscamos el Cultivoxlaboreo que tenga orden == 1 de ese Cultivo
-            if(cxl.getOrden() == 1) {
-                for(Laboreo l: controlador.getLaboreos()) {
-                    if(l.getIdlaboreo() == cxl.getLaboreo().getIdlaboreo()) {
-                        primerLaboreo = l;
-                        break;
-                    }
-                }
-                break;
-            }
-        }*/
         this.p = new Proyecto(cultivoS, estadoEnPreparacion, lote);
-        Proyectoxlaboreo pxl = new Proyectoxlaboreo(primerLaboreo, p, new Date(), null);
-        p.getProyectoxlaboreos().add(pxl);
+        Proyectoxlaboreo pxl = new Proyectoxlaboreo(primerLaboreo, p, new Date(), null, 1);
         controlador.agregarObjeto(p);
+        p.getProyectoxlaboreos().add(pxl);
+        controlador.actualizarObjeto(p);
         controlador.agregarObjeto(pxl);
         lote.getProyectos().add(p);
         controlador.actualizarObjeto(lote);
         controlador.actualizarEstadoCampo(lote.getCampo());
-        /*String nombreEstadoCampo = p.getLote().getCampo().verEstadoActualizado();
-        Estadocampo nuevoEstadoCampo = controlador.recuperarEstadocampo(nombreEstadoCampo);for(Estadocampo ec:controlador.getEstadosCampo()) {
-            if(ec.getNombre().equals(c))
-                p.getLote().getCampo().setEstadocampo(ec);
-        }
-        p.getLote().getCampo().setEstadocampo(nuevoEstadoCampo);
-        controlador.actualizarObjeto(p.getLote().getCampo());*/
         MenuLaboreoProyecto mlp = new MenuLaboreoProyecto(this.controlador, p);
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed

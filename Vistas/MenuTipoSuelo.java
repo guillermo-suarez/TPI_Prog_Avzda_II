@@ -227,12 +227,27 @@ public class MenuTipoSuelo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        //verificar que no este relacionado con algun cultivo
-        Tiposuelo ts = this.controlador.getTiposSuelo().get(this.tblTiposSuelo.getSelectedRow());
-        this.controlador.borrarObjeto(ts);
-        this.deseleccionarFila();
-        this.iniciarTabla();
-        this.lblAviso.setText("Tipo de suelo borrado.");
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "¿Desea borrar este Tipo de Suelo? Esta acción no podrá deshacerse",
+                "Borrar un Tipo de Suelo", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            Tiposuelo ts = this.controlador.getTiposSuelo().get(this.tblTiposSuelo.getSelectedRow());
+            for(Cultivoxtiposuelo aux: ts.getCultivoxtiposuelos()) {
+                controlador.borrarObjeto(aux);
+            }
+            this.controlador.borrarObjeto(ts);
+            this.deseleccionarFila();
+            this.iniciarTabla();
+            this.lblAviso.setText("Tipo de suelo borrado.");
+            }
+         else {
+            // No
+            this.lblAviso.setText("");
+        }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCultivoActionPerformed
@@ -266,6 +281,10 @@ public class MenuTipoSuelo extends javax.swing.JFrame {
             this.btnCultivo.setEnabled(true);
             this.txtNumero.setText((String) this.tblTiposSuelo.getValueAt(this.tblTiposSuelo.getSelectedRow(), 0));
             this.txtNombre.setText((String) this.tblTiposSuelo.getValueAt(this.tblTiposSuelo.getSelectedRow(), 1));
+            Tiposuelo ts =(Tiposuelo) controlador.recuperarUno(Tiposuelo.class, Integer.parseInt((String) tblTiposSuelo.getValueAt(tblTiposSuelo.getSelectedRow(), 0)));
+            if(ts.getLotes().size() > 0) {
+                btnBorrar.setEnabled(false);
+            }
         }
     }
     

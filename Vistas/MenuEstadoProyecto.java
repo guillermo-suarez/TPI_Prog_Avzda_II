@@ -237,13 +237,26 @@ public class MenuEstadoProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        Estadoproyecto ep;
-        ep = this.controlador.getEstadosProyecto().get(this.tblEstadosProyecto.getSelectedRow());
-        this.controlador.borrarObjeto(ep);
-        this.deseleccionarFila();
-        this.iniciarTabla();
-        this.lblvariable.setText("Estado de proyecto borrado.");
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "¿Desea borrar este Estado de Proyecto? Esta acción no podrá deshacerse",
+                "Borrar un Estado de Proyecto", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            Estadoproyecto ep;
+            ep = this.controlador.getEstadosProyecto().get(this.tblEstadosProyecto.getSelectedRow());
+            this.controlador.borrarObjeto(ep);
+            this.deseleccionarFila();
+            this.iniciarTabla();
+            this.lblvariable.setText("Estado de proyecto borrado.");
+        } else {
+            // No
+            this.lblvariable.setText("");
+        }
     }//GEN-LAST:event_btnBorrarActionPerformed
+    
     public void iniciarTabla() {
         listEstadoProyecto = this.controlador.getEstadosProyecto();
         DefaultTableModel tblModel = (DefaultTableModel) tblEstadosProyecto.getModel();
@@ -261,12 +274,17 @@ public class MenuEstadoProyecto extends javax.swing.JFrame {
     
     private void tblListModelValueChanged(ListSelectionEvent evt){
         if(this.tblListModel.getSelectedItemsCount() > 0) {
-        this.btnAgregar.setEnabled(false);
-        this.btnBorrar.setEnabled(true);
-        this.btnActualizar.setEnabled(true);
-        this.txtNumero.setText((String) this.tblEstadosProyecto.getValueAt(this.tblEstadosProyecto.getSelectedRow(), 0));
-        this.txtNombre.setText((String) this.tblEstadosProyecto.getValueAt(this.tblEstadosProyecto.getSelectedRow(), 1));
-    }
+            this.btnAgregar.setEnabled(false);
+            this.btnBorrar.setEnabled(true);
+            this.btnActualizar.setEnabled(true);
+            int idEstadoProyecto = Integer.parseInt((String) tblEstadosProyecto.getValueAt(this.tblEstadosProyecto.getSelectedRow(), 0));
+            Estadoproyecto estadoProyecto = (Estadoproyecto) controlador.recuperarUno(Estadoproyecto.class, idEstadoProyecto);
+            if(estadoProyecto.getProyectos().size() > 0) {
+                this.btnBorrar.setEnabled(false);
+            }
+            this.txtNumero.setText(String.valueOf(estadoProyecto.getIdestadoproyecto()));
+            this.txtNombre.setText(estadoProyecto.getNombre());
+        }
     }
         private void deseleccionarFila() {
         this.tblListModel.clearSelection();

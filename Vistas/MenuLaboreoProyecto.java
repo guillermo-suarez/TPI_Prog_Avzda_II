@@ -5,7 +5,8 @@ import Modelo.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import javax.swing.table.*;
 
 public class MenuLaboreoProyecto extends javax.swing.JFrame {
 
@@ -223,62 +224,84 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnCancelarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPActionPerformed
-        Estadoproyecto estadoCancelado = controlador.recuperarEstadoproyecto("Cancelado");
-        this.proyecto.setEstadoproyecto(estadoCancelado);
-        controlador.actualizarObjeto(proyecto);
-        int idCampo = this.campo.getIdcampo();
-        this.campo = (Campo) controlador.recuperarUno(Campo.class, idCampo);
-        controlador.actualizarEstadoCampo(this.campo);
-        iniciarTabla();
-        lblvariable.setText("Proyecto cancelado");
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "¿Desea cancelar este proyecto? Esta acción no podrá deshacerse",
+                "Cancelar proyecto", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            Estadoproyecto estadoCancelado = controlador.recuperarEstadoproyecto("Cancelado");
+            this.proyecto.setEstadoproyecto(estadoCancelado);
+            controlador.actualizarObjeto(proyecto);
+            int idCampo = this.campo.getIdcampo();
+            this.campo = (Campo) controlador.recuperarUno(Campo.class, idCampo);
+            controlador.actualizarEstadoCampo(this.campo);
+            iniciarTabla();
+            lblvariable.setText("Proyecto cancelado");
+        }
+         else {
+            // No
+            lblvariable.setText("");
+        }
     }//GEN-LAST:event_btnCancelarPActionPerformed
 
     private void btnNextLaboreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextLaboreoActionPerformed
-        // Recuperamos el numero de orden del laboreo que se esta terminando
-        int ultimoOrden = this.proyecto.getProyectoxlaboreos().size();
-        // Ahora recuperamos el proyectoxlaboreo correspondiente
-        Proyectoxlaboreo ultimoPxL = null;
-        for(Proyectoxlaboreo pxl: this.proyecto.getProyectoxlaboreos()) {
-            if((pxl.getOrden() == ultimoOrden)) {
-                ultimoPxL = pxl;
-                break;
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "¿Está seguro que desea comenzar el siguiente laboreo y terminar con el actual?",
+                "Siguiente laboreo", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            // Recuperamos el numero de orden del laboreo que se esta terminando
+            int ultimoOrden = this.proyecto.getProyectoxlaboreos().size();
+            // Ahora recuperamos el proyectoxlaboreo correspondiente
+            Proyectoxlaboreo ultimoPxL = null;
+            for(Proyectoxlaboreo pxl: this.proyecto.getProyectoxlaboreos()) {
+                if((pxl.getOrden() == ultimoOrden)) {
+                    ultimoPxL = pxl;
+                    break;
+                }
             }
+            // Le ponemos la fechaFin y lo guardamos
+            ultimoPxL.setFechafin(new Date());
+            controlador.actualizarObjeto(ultimoPxL);
+            // Si el último laboreo que se hizo fue el ultimo, se debe terminar el proyecto
+            if(ultimoOrden == proyecto.getCultivo().getCultivoxlaboreos().size()) {
+                for(Estadoproyecto ep: controlador.getEstadosProyecto()) {
+                    if(ep.getNombre().equals("Terminado")) {
+                        proyecto.setEstadoproyecto(ep);
+                        controlador.actualizarObjeto(proyecto);
+                        break;
+                    }
+                }
+                String nuevoEstadoDelCampo = this.proyecto.getLote().getCampo().verEstadoActualizado();
+                for(Estadocampo ec: controlador.getEstadosCampo()) {
+                    if(ec.getNombre().equals(nuevoEstadoDelCampo)) {
+                        this.proyecto.getLote().getCampo().setEstadocampo(ec);
+                        controlador.actualizarObjeto(this.proyecto.getLote().getCampo());
+                        break;
+                    }
+                }
+            // Si no, empezar el siguiente laboreo
+            } else {
+                Laboreo proximoLaboreo = null;
+                for(Cultivoxlaboreo cxl: this.proyecto.getCultivo().getCultivoxlaboreos()) {
+                    if(cxl.getOrden() == (ultimoOrden + 1)) {
+                        proximoLaboreo = cxl.getLaboreo();
+                        break;
+                    }
+                }
+                Proyectoxlaboreo nuevoPxL = new Proyectoxlaboreo(proximoLaboreo, proyecto, new Date(), null, ultimoOrden + 1);
+                proyecto.getProyectoxlaboreos().add(nuevoPxL);
+                controlador.actualizarObjeto(proyecto);
+                controlador.agregarObjeto(nuevoPxL);
+            }
+            iniciarTabla();
         }
-        // Le ponemos la fechaFin y lo guardamos
-        ultimoPxL.setFechafin(new Date());
-        controlador.actualizarObjeto(ultimoPxL);
-        // Si el último laboreo que se hizo fue el ultimo, se debe terminar el proyecto
-        if(ultimoOrden == proyecto.getCultivo().getCultivoxlaboreos().size()) {
-            for(Estadoproyecto ep: controlador.getEstadosProyecto()) {
-                if(ep.getNombre().equals("Terminado")) {
-                    proyecto.setEstadoproyecto(ep);
-                    controlador.actualizarObjeto(proyecto);
-                    break;
-                }
-            }
-            String nuevoEstadoDelCampo = this.proyecto.getLote().getCampo().verEstadoActualizado();
-            for(Estadocampo ec: controlador.getEstadosCampo()) {
-                if(ec.getNombre().equals(nuevoEstadoDelCampo)) {
-                    this.proyecto.getLote().getCampo().setEstadocampo(ec);
-                    controlador.actualizarObjeto(this.proyecto.getLote().getCampo());
-                    break;
-                }
-            }
-        // Si no, empezar el siguiente laboreo
-        } else {
-            Laboreo proximoLaboreo = null;
-            for(Cultivoxlaboreo cxl: this.proyecto.getCultivo().getCultivoxlaboreos()) {
-                if(cxl.getOrden() == (ultimoOrden + 1)) {
-                    proximoLaboreo = cxl.getLaboreo();
-                    break;
-                }
-            }
-            Proyectoxlaboreo nuevoPxL = new Proyectoxlaboreo(proximoLaboreo, proyecto, new Date(), null, ultimoOrden + 1);
-            proyecto.getProyectoxlaboreos().add(nuevoPxL);
-            controlador.actualizarObjeto(proyecto);
-            controlador.agregarObjeto(nuevoPxL);
-        }
-        iniciarTabla();
     }//GEN-LAST:event_btnNextLaboreoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed

@@ -12,11 +12,13 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
     private List<Estadocampo> listEstadoCampo;
     private Controlador controlador;
     private ListSelectionModel tblListModel;
+    private Estadocampo estadoCampoSeleccionado;
     
     public MenuEstadoCampo(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
         this.listEstadoCampo = new ArrayList<>();
+        this.estadoCampoSeleccionado = null;
         tblListModel = tblEstadosCampo.getSelectionModel();
         tblListModel.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -222,12 +224,20 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        Estadocampo ec = this.controlador.getEstadosCampo().get(this.tblEstadosCampo.getSelectedRow());
-        this.controlador.borrarObjeto(ec);
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this, "¿Seguro que desea borrar el EstadoCampo?\n"
+                + "Esta acción no se podrá deshacer", "Borrar un EstadoCampo",
+                0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            this.controlador.borrarObjeto(estadoCampoSeleccionado);
+            this.lblAviso.setText("Estado de campo borrado.");
+        } else {
+            // no
+        }
         this.deseleccionarFila();
         this.iniciarTabla();
-        this.lblAviso.setText("Estado de campo borrado.");
-        
     }//GEN-LAST:event_btnBorrarActionPerformed
     
     private void iniciarTabla() {
@@ -245,11 +255,17 @@ public class MenuEstadoCampo extends javax.swing.JFrame {
     
     private void tblListModelValueChanged(ListSelectionEvent evt){
         if(this.tblListModel.getSelectedItemsCount() > 0) {
+            int idEstadoCampoSeleccionado = Integer.parseInt((String) tblEstadosCampo.getValueAt(tblEstadosCampo.getSelectedRow(), 0));
+            this.estadoCampoSeleccionado = (Estadocampo) controlador.recuperarUno(Estadocampo.class, idEstadoCampoSeleccionado);
+            if(estadoCampoSeleccionado.getCampos().size() > 0) {
+                this.btnBorrar.setEnabled(false);
+            } else {
+                this.btnBorrar.setEnabled(true);
+            }
             this.btnAgregar.setEnabled(false);
-            this.btnBorrar.setEnabled(true);
             this.btnActualizar.setEnabled(true);
-            this.txtNumero.setText((String) this.tblEstadosCampo.getValueAt(this.tblEstadosCampo.getSelectedRow(), 0));
-            this.txtNombre.setText((String) this.tblEstadosCampo.getValueAt(this.tblEstadosCampo.getSelectedRow(), 1));
+            this.txtNumero.setText(String.valueOf(estadoCampoSeleccionado.getIdestadocampo()));
+            this.txtNombre.setText(estadoCampoSeleccionado.getNombre());
         }
     }
     

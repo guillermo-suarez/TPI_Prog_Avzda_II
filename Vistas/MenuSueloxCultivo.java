@@ -172,12 +172,26 @@ public class MenuSueloxCultivo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        for(Cultivoxtiposuelo cxts: tiposuelo.getCultivoxtiposuelos()) {
+        String[] opciones = new String[2];
+        opciones[0] = "Si";
+        opciones[1] = "No";
+        int opcion = JOptionPane.showOptionDialog(this,
+                "¿Desea borrar este Cultivo? Esta acción no podrá deshacerse",
+                "Borrar un Cultivo de un Tipo de Suelo", 0, JOptionPane.WARNING_MESSAGE, null, opciones, null);
+        if(opcion == 0) {
+            // Si
+            for(Cultivoxtiposuelo cxts: tiposuelo.getCultivoxtiposuelos()) {
             if(cxts.getCultivo().getNombre() == tblCultivo.getValueAt(tblCultivo.getSelectedRow(), 0)) {
                 this.controlador.borrarObjeto(cxts);
                 tiposuelo.getCultivoxtiposuelos().remove(cxts);
                 break;
+                }
             }
+            this.lblVariable.setText("Cultivo Borrado");
+        }
+         else {
+            // No
+            this.lblVariable.setText("");
         }
         iniciarTabla();
     }//GEN-LAST:event_btnBorrarActionPerformed
