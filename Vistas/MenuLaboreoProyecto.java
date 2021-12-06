@@ -360,11 +360,11 @@ public class MenuLaboreoProyecto extends javax.swing.JFrame {
         this.txtCultivo.setText(proyecto.getCultivo().getNombre());
         //Cargar el combobox de estadoproyecto
         boxEstadoP.removeAllItems();
-        //Si el proyecto esta terminado...
         boxEstadoP.setEnabled(false);
         btnActualizar.setEnabled(false);
         btnNextLaboreo.setEnabled(false);
         btnCancelarP.setEnabled(false);
+        //Si el proyecto esta terminado...
         if(proyecto.getEstadoproyecto().getNombre().equals("Terminado")) {
             boxEstadoP.addItem("Terminado");
         //Si el proyecto esta cancelado...

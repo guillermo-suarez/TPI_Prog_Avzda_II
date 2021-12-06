@@ -417,12 +417,6 @@ public class MenuLaboreosDeUnCultivo extends javax.swing.JFrame {
         for(int i = 0; i < laboreosDelCultivo.size(); i++) {
             cbsLaboreos.get(laboreosDelCultivo.get(i).getOrden() - 1).setSelectedIndex(laboreosDelCultivo.get(i).getLaboreo().getIdlaboreo());
         }
-        // Se deshabilitan los combo box que correspondan
-        /*for(int i = 0; i < cbsLaboreos.size() - 1; i++) {
-            if(cbsLaboreos.get(i).getSelectedIndex() == 0) {
-                cbsLaboreos.get(i + 1).setEnabled(false);
-            }
-        }*/
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
 import Controlador.*;
@@ -287,12 +282,6 @@ public class MenuLotes extends javax.swing.JFrame {
         } else {
             // Se recupera dicho proyecto activo
             Proyecto proyectoActivo = loteSeleccionado.tieneProyectoActivo();
-            /*for(Proyecto p: loteSeleccionado.getProyectos()) {
-                if(!(p.getEstadoproyecto().getNombre().equals("Terminado")) && !(p.getEstadoproyecto().getNombre().equals("Cancelado"))) {
-                    proyectoActivo = p;
-                    break;
-                }
-            }*/
             // Y se va al menú para ver y modificar el proyecto activo
             this.dispose();
             MenuLaboreoProyecto mlp = new MenuLaboreoProyecto(controlador, proyectoActivo);
@@ -401,16 +390,11 @@ public class MenuLotes extends javax.swing.JFrame {
             if(proyectoActivo != null) {
                 estado = proyectoActivo.getEstadoproyecto().getNombre();
             }
-            /*for(Proyecto p: l.getProyectos()) {
-               if (!(p.getEstadoproyecto().getNombre().equals("Terminado")) && !(p.getEstadoproyecto().getNombre().equals("Cancelado"))) {
-                   bandera = p.getEstadoproyecto().getNombre();
-                   break;
-               }
-            }*/
             String[] tblData = {nroCampo, nroLote,tipoSuelo, metros, estado};
             tblModel.addRow(tblData);}            
         }
         deseleccionarFila();
+        this.boxTipo.removeAllItems();
         for(Tiposuelo ts: controlador.getTiposSuelo()) {
             boxTipo.addItem(ts.getNombre());
         }
@@ -444,11 +428,11 @@ public class MenuLotes extends javax.swing.JFrame {
                 this.btnActualizar.setEnabled(true);
                 this.btnProyecto.setEnabled(true);
                 this.btnSeparar.setEnabled(true);
+                this.btnUnir.setEnabled(false);
             }            
             int idLoteSeleccionado = Integer.parseInt((String) tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));
             this.loteSeleccionado = (Lote) controlador.recuperarUno(Lote.class, idLoteSeleccionado);
-            if(loteSeleccionado.getProyectos().size()>0)
-            {
+            if(loteSeleccionado.getProyectos().size()>0) {
                 btnBorrar.setEnabled(false);
             }
             this.txtNumeroLote.setText((String) this.tblLotes.getValueAt(this.tblLotes.getSelectedRow(), 1));
